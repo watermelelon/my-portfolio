@@ -1,78 +1,66 @@
-
-import { Code, Palette, Zap, Users } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import ScrollReveal from "./ui/scrollreveal";
+import Antigravity from "./ui/Antigravity";
+import CurvedLoop from "./ui/CurvedLoop";
+import Aurora from "./ui/Aurora";
 
 const About = () => {
-  const skills = [
-    {
-      icon: Code,
-      title: "Full Stack Development",
-      description: "Expert in React, Node.js, Python, and modern web technologies"
-    },
-    {
-      icon: Palette,
-      title: "UI/UX Design",
-      description: "Creating intuitive and beautiful user experiences"
-    },
-    {
-      icon: Zap,
-      title: "Performance Optimization",
-      description: "Building fast, scalable, and efficient applications"
-    },
-    {
-      icon: Users,
-      title: "Team Collaboration",
-      description: "Experienced in agile methodologies and cross-functional teams"
-    }
-  ];
-
-  const technologies = [
-    "JavaScript", "TypeScript", "React", "Node.js", "Python", "PostgreSQL",
-    "AWS", "Docker", "Git", "Tailwind CSS", "Next.js", "Express.js"
-  ];
-
   return (
-    <section id="about" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            About Me
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            I'm a passionate developer with 5+ years of experience creating digital solutions 
-            that solve real-world problems. I love turning complex ideas into simple, 
-            elegant interfaces.
-          </p>
-        </div>
+    <section
+      id="about"
+      className="relative min-h-[140vh] pt-16 pb-24 bg-[#0B0B0F] text-white"
+    >
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {skills.map((skill, index) => (
-            <Card key={index} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <CardContent className="p-6 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <skill.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-800">{skill.title}</h3>
-                <p className="text-gray-600">{skill.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+      {/* Background Particles */}
+      <div className="absolute inset-0 z-0">
+      <Aurora
+        colorStops={["#67edff","#B19EEF","#5227FF"]}
+        blend={0.5}
+        amplitude={1.0}
+        speed={1}
+      />
+      </div>
 
-        <div className="bg-gray-50 rounded-2xl p-8">
-          <h3 className="text-2xl font-bold text-center mb-8 text-gray-800">Technologies I Work With</h3>
-          <div className="flex flex-wrap justify-center gap-4">
-            {technologies.map((tech, index) => (
-              <span 
-                key={index}
-                className="px-4 py-2 bg-white rounded-full text-gray-700 font-medium shadow-sm hover:shadow-md transition-shadow duration-200"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+      {/* Text Content */}
+      <div className="max-w-4xl mx-auto px-8 text-center">
+        <ScrollReveal
+          baseOpacity={0.1}
+          enableBlur
+          baseRotation={3}
+          blurStrength={4}
+        >
+          
+            I’m driven by curiosity and the desire to build meaningful digital experiences. 
+            I am currently working on topics regarding UI/UX, computer vision and data visualization. 
+            But open to learn any cool tech out there!
+          
+        </ScrollReveal>
+
+        <div className="mt-60">
+        <ScrollReveal
+          baseOpacity={0.1}
+          enableBlur
+          baseRotation={3}
+          blurStrength={4}
+        >
+            
+             Some of the tools I use include:
+          
+        </ScrollReveal>
         </div>
       </div>
+
+      {/* Curved Loop - Full Width */}
+      <div className="relative z-100 w-full -mt-20"> {/* -mt-8 reduces space between text and loop */}
+        <CurvedLoop 
+          marqueeText="React ✦ Python ✦ Blender ✦ Tailwind ✦ OpenCV ✦ Unity ✦ Figma ✦ Node.js ✦ Three.js ✦ Git ✦"
+          speed={1.5}
+          curveAmount={200}
+          direction="left"
+          interactive
+          className="w-full text-xl md:text-4xl min-h-0 !flex !items-start !justify-start"
+        />
+      </div>
+
     </section>
   );
 };

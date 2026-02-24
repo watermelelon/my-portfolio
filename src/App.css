@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.perspective-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
