@@ -6,15 +6,21 @@ import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import Hook from '@/components/Hook';
+import FeaturedWork from '@/components/FeaturedWork';
+import { Play } from 'lucide-react';
+import Playground from '@/components/Playground';
 
 const Index = () => {
   return (
     <div className="min-h-screen">
+
+
       <Header />
       <Hook />
-      <Hero />
-      <About />
-      <Projects />
+      <FeaturedWork />
+
+      <Playground />
+ 
       <Contact />
       <Footer />
     </div>

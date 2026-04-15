@@ -1,101 +1,1725 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap');
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  body {
+    @apply bg-bg text-text font-sans antialiased;
   }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  ::selection {
+    @apply bg-primary text-white;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCENE
+   ═══════════════════════════════════════════════════════════════════════════ */
+.hero-scene {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #080708;
+  display: flex;
+  align-items: flex-end;
+}
+
+#global-ball {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PERSPECTIVE SVG
+   ═══════════════════════════════════════════════════════════════════════════ */
+.persp-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TEXT BLOCK
+   ═══════════════════════════════════════════════════════════════════════════ */
+.hero-text-block {
+  position: absolute;
+  bottom: 10vh;
+  left: clamp(24px, 5vw, 80px);
+  z-index: 10;
+  max-width: 700px;
+}
+
+.hero-kicker {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: 20px;
+}
+
+.hero-headline {
+  font-size: clamp(3.2rem, 7.5vw, 7rem);
+  line-height: 0.92;
+  margin: 0 0 28px;
+  color: #e6e8e6;
+  white-space: nowrap;
+}
+
+.headline-serif {
+  font-family: 'Instrument Serif', serif;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.headline-sans {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
+
+.headline-muted {
+  opacity: 0.38;
+}
+
+.hero-desc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  font-weight: 300;
+  color: rgba(230,232,230,0.55);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+/* ── CTAs ──────────────────────────────────────────────────────────────── */
+.cta-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cta-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.cta-btn:hover { transform: translateY(-2px); }
+.cta-btn:active { transform: translateY(0); }
+
+.cta-primary {
+  background: #3772ff;
+  color: #fff;
+  padding: 13px 28px;
+  border-radius: 999px;
+  border: none;
+}
+.cta-primary:hover { opacity: 0.88; }
+
+.cta-ghost {
+  background: transparent;
+  color: rgba(230,232,230,0.65);
+  border: none;
+  padding: 0;
+  position: relative;
+}
+.cta-ghost::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  height: 1px; width: 0;
+  background: rgba(230,232,230,0.5);
+  transition: width 0.3s ease;
+}
+.cta-ghost:hover { color: #e6e8e6; }
+.cta-ghost:hover::after { width: 100%; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHARACTER STAGE
+   ─────────────────────────────────────────────────────────────────────────
+   Anchored at 62% from top, 50% from left.
+   The ball's GSAP x/y offsets move it relative to this anchor.
+   Final landing position (on "interfaces"): x≈-60, y≈-200 from here.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.character-stage {
+  position: absolute;
+  /* Exact viewport center — GSAP x/y offsets are measured from here */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  width: 260px;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ── Ball ─────────────────────────────────────────────────────────────── */
+.ball {
+  width: 260px;
+  height: 260px;
+  background: #3772ff;
+  border-radius: 50%;
+  position: relative;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Eyes */
+.eye {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  background: #e6e8e6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.eye-l { left: 29%; top: 27%; }
+.eye-r { right: 29%; top: 27%; }
+
+.pupil {
+  width: 15px;
+  height: 15px;
+  background: #080708;
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLL CUE
+   ═══════════════════════════════════════════════════════════════════════════ */
+.scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  right: clamp(24px, 4vw, 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+  opacity: 0.4;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e6e8e6;
+}
+
+.cue-line {
+  display: block;
+  width: 1px;
+  height: 38px;
+  background: rgba(230,232,230,0.35);
+  transform-origin: top;
+  animation: scrollAnim 1.8s cubic-bezier(0.4,0,0.6,1) infinite;
+}
+
+@keyframes scrollAnim {
+  0%   { transform: scaleY(0); opacity: 1; }
+  60%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURED WORK — horizontal scroll section
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Outer wrapper: pinned by ScrollTrigger, exactly viewport height ──────── */
+.fw-wrap {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;          /* clips the strip as it translates */
+  position: relative;
+  background: #080708;
+}
+
+/* ── Strip: all panels side-by-side in one row ────────────────────────────── */
+.fw-strip {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  /* Width is determined by children — no explicit width needed */
+  will-change: transform;
+}
+
+/* ── Shared panel base ────────────────────────────────────────────────────── */
+.fw-intro-panel,
+.fw-card {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100%;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INTRO PANEL
+   ═══════════════════════════════════════════════════════════════════════════ */
+.fw-intro-panel {
+  background: #080708;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 clamp(32px, 7vw, 120px);
+}
+
+.fw-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.65rem, 1vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: 28px;
+}
+
+.fw-heading {
+  font-size: clamp(4.5rem, 12vw, 11rem);
+  line-height: 0.86;
+  margin: 0 0 40px;
+  color: #e6e8e6;
+}
+
+.fw-heading-serif {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: normal;
+}
+
+.fw-heading-sans {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
+
+.fw-intro-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(230,232,230,0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PROJECT CARD
+   ═══════════════════════════════════════════════════════════════════════════ */
+.fw-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(28px, 4vh, 52px) clamp(32px, 5vw, 80px);
+}
+
+/* ── Top row: number ──────────────────────────────────────────────────────── */
+.fw-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: clamp(20px, 3vh, 40px);
+}
+
+.fw-num {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.65rem, 0.9vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  /* color driven by JS scramble */
+  transition: color 0.05s;
+}
+
+/* ── Body: image + text ───────────────────────────────────────────────────── */
+.fw-card-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  min-height: 0;
+}
+
+/* ── Image ────────────────────────────────────────────────────────────────── */
+.fw-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.fw-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s ease;
+}
+
+.fw-card:hover .fw-image {
+  transform: scale(1.04);
+}
+
+.fw-image-placeholder {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+}
+
+/* ── Text info ────────────────────────────────────────────────────────────── */
+.fw-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(16px, 2.5vh, 28px);
+}
+
+.fw-card-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: clamp(3.2rem, 6vw, 6rem);
+  line-height: 0.88;
+  /* color driven by JS scramble */
+  transition: color 0.05s;
+}
+
+.fw-desc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.25rem, 1.3vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.78;
+  max-width: 500px;
+}
+
+/* ── CTA link ─────────────────────────────────────────────────────────────── */
+.fw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 12px 24px;
+  border: 1px solid;
+  border-radius: 999px;
+  align-self: flex-start;
+  transition: opacity 0.2s ease;
+}
+
+.fw-link:hover {
+  opacity: 0.7;
+}
+
+.fw-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.fw-link:hover .fw-arrow {
+  transform: translateX(4px);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .fw-card-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 24px;
+    overflow-y: auto;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  .fw-image-wrap {
+    aspect-ratio: 16 / 9;
+  }
+
+  .fw-card-title {
+    font-size: clamp(2.5rem, 11vw, 4rem);
+  }
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN PHILOSOPHY
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ph-section {
+  position: relative;
+  width: 100%;
+  /* Height = viewport (pinned) + marquee strip below */
+  min-height: 100vh;
+  background: #080708;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Fixed header ─────────────────────────────────────────────────────────── */
+.ph-header {
+  position: absolute;
+  top: clamp(36px, 5vh, 60px);
+  left: clamp(32px, 5vw, 80px);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.ph-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.6rem, 0.85vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: 8px;
+}
+
+.ph-header-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.68rem, 0.9vw, 0.8rem);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: rgba(230, 232, 230, 0.3);
+}
+
+/* ── Step counter dots — top right ───────────────────────────────────────── */
+.ph-counter {
+  position: absolute;
+  top: clamp(36px, 5vh, 60px);
+  right: clamp(32px, 5vw, 80px);
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.ph-counter-dot {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(230, 232, 230, 0.2);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Stage: full-viewport area holding the stacked steps ─────────────────── */
+.ph-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+/* ── Individual step ──────────────────────────────────────────────────────── */
+.ph-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(32px, 8vh, 100px) clamp(32px, 7vw, 120px);
+  /* visibility controlled by GSAP autoAlpha */
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Horizontal accent line */
+.ph-step-line {
+  width: clamp(40px, 6vw, 80px);
+  height: 2px;
+  margin-bottom: clamp(20px, 3vh, 36px);
+  /* transform scaleX driven by GSAP */
+  transform-origin: left center;
+  border-radius: 1px;
+}
+
+/* Index number */
+.ph-index {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.65rem, 0.9vw, 0.78rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: clamp(12px, 2vh, 20px);
+  display: block;
+}
+
+/* ── Big process word ─────────────────────────────────────────────────────── */
+.ph-word {
+  font-size: clamp(5rem, 14vw, 13rem);
+  line-height: 0.88;
+  margin: 0 0 clamp(28px, 4vh, 52px);
+  /* x + autoAlpha driven by GSAP */
+}
+
+.ph-word--serif {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.ph-word--sans {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
+
+/* ── Meta: body text + tags ───────────────────────────────────────────────── */
+.ph-meta {
+  max-width: 620px;
+  /* y + autoAlpha driven by GSAP */
+}
+
+.ph-body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.88rem, 1.2vw, 1rem);
+  font-weight: 300;
+  color: rgba(230, 232, 230, 0.6);
+  line-height: 1.78;
+  margin-bottom: clamp(20px, 3vh, 32px);
+}
+
+/* ── Skill tags ───────────────────────────────────────────────────────────── */
+.ph-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ph-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border: 1px solid;
+  border-radius: 999px;
+  /* color + borderColor set inline per step accent */
+  /* y + autoAlpha driven by GSAP */
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MARQUEE  — CSS-only, no JS, zero perf cost
+   Two rows: row 1 goes left, row 2 goes right.
+   ══════════════════════════════════════════════════════════════════════════ */
+.ph-marquee-wrap {
+  width: 100%;
+  background: #080708;
+  padding: clamp(28px, 5vh, 52px) 0;
+  border-top: 1px solid rgba(230, 232, 230, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  /* Positioned below the pinned stage — pinSpacing pushes content down */
+}
+
+.ph-marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+
+.ph-marquee span {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.72rem, 1.1vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 232, 230, 0.28);
+}
+
+/* Forward: right to left */
+.ph-marquee--fwd span {
+  animation: marqueeFwd 28s linear infinite;
+}
+
+/* Reverse: left to right */
+.ph-marquee--rev span {
+  animation: marqueeRev 32s linear infinite;
+  color: rgba(55, 114, 255, 0.3);
+}
+
+@keyframes marqueeFwd {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+@keyframes marqueeRev {
+  0%   { transform: translateX(-33.333%); }
+  100% { transform: translateX(0); }
+}
+
+/* Pause on hover — subtle respect for the user */
+.ph-marquee-wrap:hover .ph-marquee span {
+  animation-play-state: paused;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .ph-word {
+    font-size: clamp(3.5rem, 18vw, 6rem);
+  }
+
+  .ph-step {
+    padding: 80px 24px 32px;
+  }
+
+  .ph-tags {
+    gap: 8px;
+  }
+
+  .ph-tag {
+    font-size: 0.62rem;
+    padding: 6px 11px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TIMELINE — overrides for Aceternity's Timeline component
+   Import this file on any project timeline page.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Page wrapper ─────────────────────────────────────────────────────────── */
+.tl-page {
+  background: #080708;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ── Page header ──────────────────────────────────────────────────────────── */
+.tl-page-header {
+  padding: clamp(48px, 8vh, 100px) clamp(32px, 7vw, 120px) clamp(32px, 5vh, 64px);
+  border-bottom: 1px solid rgba(230, 232, 230, 0.06);
+}
+
+.tl-back {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(230, 232, 230, 0.35);
+  text-decoration: none;
+  margin-bottom: 32px;
+  transition: color 0.2s ease;
+}
+.tl-back:hover { color: #e6e8e6; }
+
+.tl-page-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.65rem, 0.9vw, 0.78rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: 16px;
+}
+
+.tl-page-title {
+  font-size: clamp(4rem, 10vw, 9rem);
+  line-height: 0.88;
+  color: #e6e8e6;
+  margin: 0 0 20px;
+}
+
+.tl-serif {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.tl-page-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-weight: 300;
+  color: rgba(230, 232, 230, 0.45);
+  letter-spacing: 0.02em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACETERNITY TIMELINE OVERRIDES
+   The Timeline component uses Tailwind dark: classes. We override the key
+   colors here to match our design system regardless of system theme.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Outer container background */
+.tl-page [class*="Timeline"],
+.tl-page [class*="timeline"] {
+  background: #080708 !important;
+}
+
+/* The vertical line */
+.tl-page [class*="bg-neutral-200"],
+.tl-page [class*="dark:bg-neutral-700"] {
+  background: rgba(230, 232, 230, 0.08) !important;
+}
+
+/* The progress line (fills as you scroll) */
+.tl-page [class*="bg-gradient-to-b"] {
+  background: linear-gradient(to bottom, #3772ff, #df2935) !important;
+}
+
+/* Year / title labels in the left column */
+.tl-page h3 {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(1.4rem, 3vw, 2.2rem) !important;
+  color: #1c1c1c !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Dot on the timeline */
+.tl-page [class*="rounded-full"][class*="border"] {
+  background: #080708 !important;
+  border-color: #3772ff !important;
+}
+
+/* ── Content blocks (our custom classes) ─────────────────────────────────── */
+.tl-content {
+  padding-bottom: 8px;
+}
+
+.tl-body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1rem, 1.3vw, 1.4rem);
+  font-weight: 300;
+  color: rgb(31, 31, 31);
+  line-height: 1.78;
+  margin-bottom: 24px;
+  max-width: 560px;
+}
+
+
+
+/* Tags row */
+.tl-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.tl-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid rgba(55, 114, 255, 0.5);
+  border-radius: 999px;
+  color: #3772ff;
+}
+
+/* Checklist */
+.tl-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.tl-check {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9 rem;
+  font-weight: 600;
+  color: #3772ff;
+  padding-left: 20px;
+  position: relative;
+}
+
+.tl-check::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: #3772ff;
+  font-weight: 600;
+}
+
+/* Stats row */
+.tl-stats {
+  display: flex;
+  gap: clamp(24px, 4vw, 56px);
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.tl-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tl-stat-num {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: #000000;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.tl-stat-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(230, 232, 230, 0.3);
+}
+
+/* Image grid */
+.tl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.tl-img {
+  width: 100%;
+  height: clamp(100px, 18vw, 240px);
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  opacity: 0.85;
+  
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+.tl-img:hover { opacity: 1; }
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .tl-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tl-stats {
+    gap: 20px;
+  }
+
+  .tl-page-header {
+    padding: 48px 24px 32px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTACT SECTION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ct-section {
+  position: relative;
+  width: 100%;
+  background: #080708;
+  color: #e6e8e6;
+  overflow: hidden;
+}
+
+/* Shared eyebrow */
+.ct-eyebrow,
+.ct-beat3-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.6rem, 0.9vw, 0.76rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: 24px;
+  display: block;
+}
+
+/* Shared typography */
+.ct-serif {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.ct-sans {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BEAT 1 — "Thanks for visiting."
+   Full viewport, vertically centered, left-aligned
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ct-beat1 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(80px, 12vh, 140px) clamp(32px, 7vw, 120px);
+  position: relative;
+  /* Subtle top border to separate from previous section */
+  border-top: 1px solid rgba(230, 232, 230, 0.06);
+}
+
+.ct-beat1-inner {
+  max-width: 900px;
+}
+
+.ct-beat1-title {
+  font-size: clamp(5rem, 13vw, 12rem);
+  line-height: 0.88;
+  margin: 0 0 clamp(24px, 4vh, 48px);
+  position: relative;
+  display: inline-block;
+}
+
+/* Animated underline under the last word */
+.ct-underline {
+  display: block;
+  height: 3px;
+  background: #3772ff;
+  border-radius: 2px;
+  margin-top: 12px;
+  /* width matches the .ct-sans span — kept full-width for simplicity */
+  width: 100%;
+  transform-origin: left center;
+  /* scaleX animated by GSAP */
+}
+
+.ct-beat1-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  font-weight: 300;
+  color: rgba(230, 232, 230, 0.45);
+  line-height: 1.6;
+  max-width: 540px;
+}
+
+/* Scroll nudge — bottom center of beat 1 */
+.ct-scroll-nudge {
+  position: absolute;
+  bottom: clamp(28px, 5vh, 52px);
+  left: clamp(32px, 7vw, 120px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(230, 232, 230, 0.22);
+}
+
+.ct-nudge-line {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: rgba(230, 232, 230, 0.2);
+  animation: nudgeGrow 2s ease-in-out infinite;
+  transform-origin: left;
+}
+
+@keyframes nudgeGrow {
+  0%, 100% { transform: scaleX(1); opacity: 0.4; }
+  50%       { transform: scaleX(1.6); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BEAT 2 — Availability
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ct-beat2 {
+  min-height: 85vh;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  align-items: center;
+  padding: clamp(60px, 10vh, 120px) clamp(32px, 7vw, 120px);
+  gap: clamp(40px, 6vw, 80px);
+  border-top: 1px solid rgba(230, 232, 230, 0.06);
+}
+
+/* Left: decorative large number */
+.ct-beat2-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.ct-beat2-deco {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: clamp(8rem, 20vw, 18rem);
+  line-height: 1;
+  color: rgba(55, 114, 255, 0.07);
+  user-select: none;
+  letter-spacing: -0.04em;
+}
+
+/* Right: content */
+.ct-beat2-right {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vh, 40px);
+}
+
+.ct-avail-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.65rem, 1vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(230, 232, 230, 0.3);
+}
+
+.ct-avail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ct-avail-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ct-avail-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ct-avail-text {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.5vw, 3rem);
+  color: #e6e8e6;
+  line-height: 1;
+}
+
+.ct-avail-copy {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-weight: 300;
+  color: rgba(230, 232, 230, 0.45);
+  line-height: 1.78;
+  max-width: 480px;
+  border-left: 2px solid rgba(55, 114, 255, 0.4);
+  padding-left: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BEAT 3 — Contact panel
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ct-beat3 {
+  padding: clamp(60px, 10vh, 100px) clamp(32px, 7vw, 120px);
+  border-top: 1px solid rgba(230, 232, 230, 0.06);
+}
+
+.ct-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(40px, 7vw, 100px);
+  align-items: start;
+  margin-top: 48px;
+}
+
+/* ── Left col ──────────────────────────────────────────────────────────── */
+.ct-contact-left {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vh, 36px);
+}
+
+.ct-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ct-info-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(230, 232, 230, 0.28);
+}
+
+.ct-info-val {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  font-weight: 400;
+  color: #e6e8e6;
+}
+
+.ct-link {
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.ct-link:hover { color: #3772ff; }
+
+/* Socials */
+.ct-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(230, 232, 230, 0.07);
+}
+
+.ct-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(230, 232, 230, 0.5);
+  text-decoration: none;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(230, 232, 230, 0.06);
+  transition: color 0.2s ease;
+}
+.ct-social-link:hover { color: #e6e8e6; }
+.ct-social-link:hover .ct-social-arrow { transform: translate(2px, -2px); }
+
+.ct-social-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  color: #3772ff;
+}
+
+/* Resume button */
+.ct-resume-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 28px;
+  border: 1px solid rgba(230, 232, 230, 0.2);
+  border-radius: 999px;
+  color: #e6e8e6;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  align-self: flex-start;
+}
+.ct-resume-btn:hover {
+  background: #3772ff;
+  border-color: #3772ff;
+  color: #fff;
+}
+
+/* ── Right col: form ───────────────────────────────────────────────────── */
+.ct-contact-right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.ct-form-heading {
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  line-height: 1.0;
+  color: #e6e8e6;
+  font-weight: 400;
+}
+
+.ct-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ct-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ct-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(230, 232, 230, 0.3);
+}
+
+.ct-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(230, 232, 230, 0.15);
+  color: #e6e8e6;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 300;
+  padding: 10px 0;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+.ct-input::placeholder {
+  color: rgba(230, 232, 230, 0.2);
+}
+
+.ct-input:focus {
+  border-bottom-color: #3772ff;
+}
+
+.ct-textarea {
+  resize: none;
+  line-height: 1.7;
+}
+
+.ct-submit {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: #3772ff;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 15px 36px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.ct-submit:hover:not(:disabled) { opacity: 0.85; transform: translateY(-1px); }
+.ct-submit:disabled { opacity: 0.5; cursor: default; }
+
+.ct-form-error {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  color: #df2935;
+  margin-top: -8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PEEKING BALL CHARACTER
+   Ball is 500px. Only ~125px (25%) shows above the bottom edge.
+   Centered horizontally, pushed down so only the top quarter is visible.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ct-ball-wrap {
+  position: relative;
+  width: 100%;
+  /* Height = how much of the ball we want to show */
+  height: 140px;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  /* GSAP animates y: from +280 to 0 */
+}
+
+.ct-ball {
+  width: 500px;
+  height: 500px;
+  background: #3772ff;
+  border-radius: 50%;
+  position: relative;
+  /* Push ball down so only top ~140px shows */
+  transform: translateY(360px);
+  flex-shrink: 0;
+}
+
+.ct-ball-eye {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #e6e8e6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Eyes sit in the visible top quarter */
+  top: 28px;
+}
+
+.ct-ball-eye--l { left: 130px; }
+.ct-ball-eye--r { right: 130px; }
+
+.ct-ball-pupil {
+  width: 24px;
+  height: 24px;
+  background: #080708;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FOOTER LINE
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ct-footer {
+  padding: clamp(20px, 3vh, 32px) clamp(32px, 7vw, 120px);
+  border-top: 1px solid rgba(230, 232, 230, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ct-footer-copy {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: rgba(230, 232, 230, 0.18);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .ct-beat2 {
+    grid-template-columns: 1fr;
+  }
+
+  .ct-beat2-left { display: none; }
+
+  .ct-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ct-avail-text {
+    font-size: clamp(1.4rem, 7vw, 2rem);
+  }
+
+  .ct-ball {
+    width: 320px;
+    height: 320px;
+    transform: translateY(230px);
+  }
+
+  .ct-ball-eye {
+    width: 42px;
+    height: 42px;
+    top: 20px;
+  }
+
+  .ct-ball-eye--l { left: 74px; }
+  .ct-ball-eye--r { right: 74px; }
+
+  .ct-ball-pupil {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PLAYGROUND — bento grid that explodes to chaos
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.pg-section {
+  position: relative;
+  width: 100%;
+  /* Tall enough so scattered cards don't clip */
+  min-height: 100vh;
+  background: #080708;
+  overflow: hidden;
+  padding: clamp(48px, 8vh, 80px) clamp(32px, 5vw, 80px) clamp(60px, 10vh, 100px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5vh, 56px);
+}
+
+/* ── Header row ───────────────────────────────────────────────────────────── */
+.pg-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.pg-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: 12px;
+}
+
+.pg-title {
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  line-height: 0.9;
+  color: #e6e8e6;
+  margin: 0;
+}
+
+.pg-serif {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.pg-sans {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
+
+/* Reset button */
+.pg-reset-btn {
+  pointer-events: all;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(230, 232, 230, 0.4);
+  background: transparent;
+  border: 1px solid rgba(230, 232, 230, 0.12);
+  border-radius: 999px;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-bottom: 6px;
+}
+.pg-reset-btn:hover {
+  color: #e6e8e6;
+  border-color: rgba(230, 232, 230, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BENTO GRID
+   6 cells in a 3-col grid. GSAP offsets them from this base layout.
+   Grid positions are the "order" state; scatter is the "chaos" state.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.pg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: clamp(12px, 2vw, 20px);
+  position: relative;
+  z-index: 5;
+}
+
+/* ── Card base ────────────────────────────────────────────────────────────── */
+.pg-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  will-change: transform;
+  /* Smooth z-index transition for hover lift */
+  transition: box-shadow 0.3s ease;
+}
+
+.pg-card:hover {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Shape variants ───────────────────────────────────────────────────────── */
+/* Standard rectangle */
+.pg-card--rect {
+  grid-column: span 1;
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+}
+
+/* Wide rectangle — spans 2 columns */
+.pg-card--rect-wide {
+  grid-column: span 2;
+  aspect-ratio: 16 / 7;
+  border-radius: 6px;
+}
+
+/* Tall rectangle */
+.pg-card--rect-tall {
+  grid-column: span 1;
+  grid-row: span 2;
+  aspect-ratio: unset;
+  min-height: 420px;
+  border-radius: 6px;
+}
+
+/* Square */
+.pg-card--square {
+  grid-column: span 1;
+  aspect-ratio: 1;
+  border-radius: 6px;
+}
+
+/* Circle — clip-path so it's actually round, not just border-radius */
+.pg-card--circle {
+  grid-column: span 1;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* Diamond — rotated square.
+   We rotate the card itself; the inner content counter-rotates. */
+.pg-card--diamond {
+  grid-column: span 1;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  transform-origin: center center;
+  /* Base rotation — GSAP adds to this on scatter */
+  /* We handle the base 45° via a wrapper below */
+}
+
+/* ── Diamond inner counter-rotate ────────────────────────────────────────── */
+/* Diamond card needs inner content NOT rotated so image + overlay look right */
+.pg-card--diamond .pg-card-img,
+.pg-card--diamond .pg-card-tint,
+.pg-card--diamond .pg-card-info {
+  transform: rotate(0deg); /* stays upright inside the rotated card */
+}
+
+/* ── Image ────────────────────────────────────────────────────────────────── */
+.pg-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.pg-card:hover .pg-card-img {
+  transform: scale(1.05);
+}
+
+/* ── Tint overlay ─────────────────────────────────────────────────────────── */
+.pg-card-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Tint fades on hover so image becomes clearer */
+  transition: opacity 0.3s ease;
+}
+
+.pg-card:hover .pg-card-tint {
+  opacity: 0.6;
+}
+
+/* ── Info overlay — slides up from bottom on hover ────────────────────────── */
+.pg-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(16px, 2.5vw, 24px);
+  background: linear-gradient(to top, rgba(8,7,8,0.95) 0%, rgba(8,7,8,0.7) 60%, transparent 100%);
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.33, 1, 0.68, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* Don't clip on circle */
+  border-radius: inherit;
+}
+
+.pg-card-info.is-visible {
+  transform: translateY(0);
+}
+
+.pg-card-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  color: #e6e8e6;
+  line-height: 1;
+}
+
+.pg-card-desc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.68rem, 0.9vw, 0.78rem);
+  font-weight: 300;
+  color: rgba(230, 232, 230, 0.65);
+  line-height: 1.6;
+}
+
+.pg-card-link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3772ff;
+  text-decoration: none;
+  align-self: flex-start;
+  margin-top: 2px;
+  transition: opacity 0.2s ease;
+}
+
+.pg-card-link:hover { opacity: 0.7; }
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .pg-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pg-card--rect-wide {
+    grid-column: span 2;
+  }
+
+  .pg-card--rect-tall {
+    grid-row: span 1;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 600px) {
+  .pg-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .pg-card--rect-wide,
+  .pg-card--rect-tall {
+    grid-column: span 2;
+    grid-row: span 1;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+
+  .pg-card--diamond,
+  .pg-card--circle,
+  .pg-card--square {
+    grid-column: span 1;
   }
 }
