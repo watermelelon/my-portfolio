@@ -9,6 +9,7 @@ import Hook from '@/components/Hook';
 import FeaturedWork from '@/components/FeaturedWork';
 import { Play } from 'lucide-react';
 import Playground from '@/components/Playground';
+import Philosophy from '@/components/Philosophy';
 
 const Index = () => {
   return (
@@ -20,7 +21,8 @@ const Index = () => {
       <FeaturedWork />
 
       <Playground />
- 
+      <Philosophy />
+      <About />
       <Contact />
       <Footer />
     </div>

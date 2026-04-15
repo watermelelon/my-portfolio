@@ -4,204 +4,190 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import StickerPeel from './StickerPeel'
+
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── Process steps ────────────────────────────────────────────────────────────
-const STEPS = [
-  {
-    word:   "Learn.",
-    serif:  true,
-    color:  "#e6e8e6",
-    accent: "#3772ff",
-    index:  "01",
-    body:   "Every project starts with deep research — users, constraints, and the competitive landscape. No assumptions.",
-    tags:   ["User Research", "Competitive Analysis", "Accessibility Audit", "Technical Scoping"],
-  },
-  {
-    word:   "Build.",
-    serif:  false,
-    color:  "#e6e8e6",
-    accent: "#fdca40",
-    index:  "02",
-    body:   "Design and engineering move together. Components are built for reuse, performance, and mobile-first from day one.",
-    tags:   ["Component Systems", "Mobile-First", "Performance Budget", "SEO Architecture"],
-  },
-  {
-    word:   "Polish.",
-    serif:  true,
-    color:  "#e6e8e6",
-    accent: "#df2935",
-    index:  "03",
-    body:   "Details win. Motion, micro-interactions, spacing, and accessibility turn good into unforgettable.",
-    tags:   ["Motion Design", "WCAG 2.1 AA", "Core Web Vitals", "UI Refinement"],
-  },
-  {
-    word:   "Repeat.",
-    serif:  false,
-    color:  "#e6e8e6",
-    accent: "#3772ff",
-    index:  "04",
-    body:   "Shipping is iteration zero. Data, feedback, and honest critique feed the next cycle. Always improving.",
-    tags:   ["A/B Testing", "Analytics", "User Feedback", "Continuous Delivery"],
-  },
+const FACTS = [
+  { label: "Based in",    value: "Thunder Bay · Quito" },
+  { label: "Studying",    value: "Computer Science" },
+  { label: "Focus",       value: "UI/UX · Motion · Systems" },
+  { label: "Available",   value: "Open to opportunities" },
 ];
 
-// ─── Marquee rows ─────────────────────────────────────────────────────────────
-const ROW1 = "React · TypeScript · GSAP · Figma · Next.js · Tailwind · Node.js · Three.js · Framer Motion · CSS Architecture ·";
-const ROW2 = "SEO · Accessibility · Core Web Vitals · UI Systems · Interaction Design · Mobile-First · Design Tokens · Motion ·";
-
-export default function Philosophy() {
+export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const steps = gsap.utils.toArray<HTMLElement>(".ph-step");
-    const SCROLL_PER_STEP = window.innerHeight * 0.9;
-
-    // Pin the whole section while we scroll through the steps
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: `+=${SCROLL_PER_STEP * STEPS.length}`,
-      pin: true,
-      pinSpacing: true,
+    // Left column slides in from left
+    gsap.from(".ab-left", {
+      x: -60,
+      opacity: 0,
+      duration: 1.0,
+      ease: "power3.out",
+      scrollTrigger: { trigger: section, start: "top 72%", once: true },
     });
 
-    // For each step: word slides in from right, tags stagger up from below
-    steps.forEach((step, i) => {
-      const word = step.querySelector<HTMLElement>(".ph-word");
-      const meta = step.querySelector<HTMLElement>(".ph-meta");
-      const tags = step.querySelectorAll<HTMLElement>(".ph-tag");
-      const line = step.querySelector<HTMLElement>(".ph-step-line");
+    // Photo slides in from right with slight delay
+    gsap.from(".ab-photo-wrap", {
+      x: 60,
+      opacity: 0,
+      duration: 1.0,
+      delay: 0.15,
+      ease: "power3.out",
+      scrollTrigger: { trigger: section, start: "top 72%", once: true },
+    });
 
-      const stepStart = `+=${SCROLL_PER_STEP * i}`;
-      const stepEnd   = `+=${SCROLL_PER_STEP * (i + 1)}`;
+    // Facts stagger up
+    gsap.from(".ab-fact", {
+      y: 24,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: "power2.out",
+      scrollTrigger: { trigger: ".ab-facts", start: "top 85%", once: true },
+    });
 
-      // Set initial state
-      gsap.set(step,  { autoAlpha: 0 });
-      gsap.set(word,  { x: 120, autoAlpha: 0 });
-      gsap.set(meta,  { y: 30,  autoAlpha: 0 });
-      gsap.set(tags,  { y: 20,  autoAlpha: 0 });
-      gsap.set(line,  { scaleX: 0, transformOrigin: "left center" });
-
-      // Slide in
-      ScrollTrigger.create({
+    // Decorative ring rotates slowly on scroll
+    gsap.to(".ab-ring", {
+      rotation: 90,
+      ease: "none",
+      scrollTrigger: {
         trigger: section,
-        start: i === 0 ? "top top" : stepStart,
-        end: stepEnd,
-        onEnter: () => {
-          // Hide all other steps first
-          steps.forEach((s, j) => {
-            if (j !== i) gsap.to(s, { autoAlpha: 0, duration: 0.2 });
-          });
-          // Animate this step in
-          const tl = gsap.timeline();
-          tl.to(step,  { autoAlpha: 1, duration: 0.01 })
-            .to(line,  { scaleX: 1, duration: 0.6, ease: "power3.out" })
-            .to(word,  { x: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" }, "-=0.4")
-            .to(meta,  { y: 0, autoAlpha: 1, duration: 0.5, ease: "power2.out" }, "-=0.3")
-            .to(tags,  { y: 0, autoAlpha: 1, duration: 0.4, ease: "power2.out", stagger: 0.07 }, "-=0.2");
-        },
-        onLeaveBack: () => {
-          gsap.to(step, { autoAlpha: 0, duration: 0.2 });
-          // Show previous step
-          if (i > 0) {
-            const prev = steps[i - 1];
-            gsap.to(prev, { autoAlpha: 1, duration: 0.2 });
-          }
-        },
-      });
-    });
-
-    // First step visible immediately on enter
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top 90%",
-      once: true,
-      onEnter: () => {
-        const first = steps[0];
-        if (!first) return;
-        const word = first.querySelector<HTMLElement>(".ph-word");
-        const meta = first.querySelector<HTMLElement>(".ph-meta");
-        const tags = first.querySelectorAll<HTMLElement>(".ph-tag");
-        const line = first.querySelector<HTMLElement>(".ph-step-line");
-        gsap.timeline()
-          .to(first, { autoAlpha: 1, duration: 0.01 })
-          .to(line,  { scaleX: 1, duration: 0.6, ease: "power3.out" })
-          .to(word,  { x: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" }, "-=0.4")
-          .to(meta,  { y: 0, autoAlpha: 1, duration: 0.5 }, "-=0.3")
-          .to(tags,  { y: 0, autoAlpha: 1, duration: 0.4, stagger: 0.07 }, "-=0.2");
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
       },
     });
 
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="ph-section">
+    <section ref={sectionRef} className="ab-section">
+  
 
-      {/* ── Fixed header — always visible during pin ─────────────────── */}
-      <div className="ph-header">
-        <p className="ph-eyebrow">How I work</p>
-        <p className="ph-header-label">Design&nbsp;Philosophy</p>
-      </div>
+      {/* ── Eyebrow ──────────────────────────────────────────────────── */}
+      <p className="ab-eyebrow">The person behind the work</p>
 
-      {/* ── Step counter — top right ─────────────────────────────────── */}
-      <div className="ph-counter" aria-hidden="true">
-        {STEPS.map((s, i) => (
-          <span key={i} className="ph-counter-dot" data-index={i} />
-        ))}
-      </div>
+      {/* ── Main grid ────────────────────────────────────────────────── */}
+      <div className="ab-grid">
 
-      {/* ── Steps — stacked absolutely, shown one at a time ──────────── */}
-      <div className="ph-stage">
-        {STEPS.map((s, i) => (
-          <div key={i} className="ph-step" data-step={i}>
+        {/* LEFT — text ─────────────────────────────────────────────── */}
+        <div className="ab-left">
 
-            {/* Horizontal rule that draws in */}
-            <div className="ph-step-line" style={{ background: s.accent }} />
+          <h2 className="ab-heading">
+            <em className="ab-serif">Hi, I'm</em>
+            <br />
+            <span className="ab-sans">Emilio.</span>
+          </h2>
 
-            {/* Index */}
-            <span className="ph-index" style={{ color: s.accent }}>{s.index}</span>
-
-            {/* Big word */}
-            <h2
-              className={`ph-word ${s.serif ? "ph-word--serif" : "ph-word--sans"}`}
-              style={{ color: s.color }}
-            >
-              {s.word}
-            </h2>
-
-            {/* Body + tags */}
-            <div className="ph-meta">
-              <p className="ph-body">{s.body}</p>
-              <div className="ph-tags">
-                {s.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="ph-tag"
-                    style={{ borderColor: s.accent, color: s.accent }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
+          <div className="ab-body">
+            <p>
+              I’m a 22-year-old designer and developer originally from Quito, Ecuador, now based in Thunder Bay, Canada, where I studied Computer Science. 
+              This has allowed me to work across cultures, time zones, and different contexts.
+            </p>
+            <p>
+              As a recent graduate, I’ve explored different areas within the field, but I’ve found myself drawn to building digital experiences—particularly those focused on design, user experience,
+               and creating spaces that are genuinely pleasant to interact with.
+            </p>
+            <p>
+              Outside of work, I enjoy reading, board games, music festivals, and keeping up with new film releases.
+               I believe good design starts by engaging with the experiences of others.
+            </p>
           </div>
-        ))}
-      </div>
 
-      {/* ── Marquee — sits below the pinned area ─────────────────────── */}
-      <div className="ph-marquee-wrap" aria-hidden="true">
-        <div className="ph-marquee ph-marquee--fwd">
-          <span>{ROW1}&nbsp;&nbsp;&nbsp;{ROW1}&nbsp;&nbsp;&nbsp;{ROW1}</span>
+          {/* Fact grid */}
+          <div className="ab-facts">
+            {FACTS.map((f) => (
+              <div key={f.label} className="ab-fact">
+                <span className="ab-fact-label">{f.label}</span>
+                <span className="ab-fact-value">{f.value}</span>
+              </div>
+            ))}
+          </div>
+
         </div>
-        <div className="ph-marquee ph-marquee--rev">
-          <span>{ROW2}&nbsp;&nbsp;&nbsp;{ROW2}&nbsp;&nbsp;&nbsp;{ROW2}</span>
+
+        {/* RIGHT — photo ───────────────────────────────────────────── */}
+
+        <div className="ab-photo-wrap">
+          <StickerPeel
+            imageSrc= "/ecuador-flag.png"
+            width={150}
+            rotate={10}
+            peelBackHoverPct={30}
+            peelBackActivePct={40}
+            shadowIntensity={0.5}
+            lightingIntensity={0.1}
+            initialPosition={{ x: 150, y: -180 }}
+            peelDirection={0}
+          />
+
+          <StickerPeel
+            imageSrc= "/canada-flag.png"
+            width={150}
+            rotate={-10}
+            peelBackHoverPct={30}
+            peelBackActivePct={40}
+            shadowIntensity={0.5}
+            lightingIntensity={0.1}
+            initialPosition={{ x: -140, y: 140 }}
+            peelDirection={0}
+          />
+
+           <StickerPeel
+            imageSrc= "/logo-ball.png"
+            width={150}
+            rotate={-10}
+            peelBackHoverPct={30}
+            peelBackActivePct={40}
+            shadowIntensity={0.5}
+            lightingIntensity={0.1}
+            initialPosition={{ x: 150, y: 200 }}
+            peelDirection={0}
+          />
+
+          {/* Decorative rotating ring behind the photo */}
+          <div className="ab-ring" aria-hidden="true" />
+
+          {/* Accent block — sits behind + offset */}
+          <div className="ab-photo-accent" aria-hidden="true" />
+
+          
+
+          {/* Photo frame */}
+          <div className="ab-photo-frame">
+            <img
+              src="/emilio.jpeg"
+              alt="Emilio"
+              className="ab-photo"
+              onError={(e) => {
+                // Fallback: show initials
+                const el = e.target as HTMLImageElement;
+                el.style.display = "none";
+                const parent = el.parentElement;
+                if (parent) {
+                  const init = document.createElement("div");
+                  init.className = "ab-photo-fallback";
+                  init.textContent = "E";
+                  parent.appendChild(init);
+                }
+              }}
+            />
+          </div>
+
+          {/* Floating label tag */}
+          <div className="ab-tag" aria-hidden="true">
+            <span className="ab-tag-dot" />
+            <span>Available for work</span>
+          </div>
+
         </div>
+
       </div>
 
     </section>

@@ -190,22 +190,24 @@
 /* Eyes */
 .eye {
   position: absolute;
-  width: 38px;
-  height: 38px;
+  width: 50px;
+  height: 50px;
   background: #e6e8e6;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.eye-l { left: 29%; top: 27%; }
-.eye-r { right: 29%; top: 27%; }
+.eye-l { left: 27%; top: 24%; }
+.eye-r { right: 27%; top: 24%; }
 
 .pupil {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   background: #080708;
   border-radius: 50%;
+    /* 👇 break the "perfect center" */
+  transform: translate(6px, 10px); /* left + slightly up */
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -463,165 +465,6 @@
 }
 
 
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   DESIGN PHILOSOPHY
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.ph-section {
-  position: relative;
-  width: 100%;
-  /* Height = viewport (pinned) + marquee strip below */
-  min-height: 100vh;
-  background: #080708;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ── Fixed header ─────────────────────────────────────────────────────────── */
-.ph-header {
-  position: absolute;
-  top: clamp(36px, 5vh, 60px);
-  left: clamp(32px, 5vw, 80px);
-  z-index: 20;
-  pointer-events: none;
-}
-
-.ph-eyebrow {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.6rem, 0.85vw, 0.75rem);
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #3772ff;
-  margin-bottom: 8px;
-}
-
-.ph-header-label {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.68rem, 0.9vw, 0.8rem);
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  color: rgba(230, 232, 230, 0.3);
-}
-
-/* ── Step counter dots — top right ───────────────────────────────────────── */
-.ph-counter {
-  position: absolute;
-  top: clamp(36px, 5vh, 60px);
-  right: clamp(32px, 5vw, 80px);
-  z-index: 20;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  pointer-events: none;
-}
-
-.ph-counter-dot {
-  display: block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: rgba(230, 232, 230, 0.2);
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-/* ── Stage: full-viewport area holding the stacked steps ─────────────────── */
-.ph-stage {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  flex-shrink: 0;
-}
-
-/* ── Individual step ──────────────────────────────────────────────────────── */
-.ph-step {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: clamp(32px, 8vh, 100px) clamp(32px, 7vw, 120px);
-  /* visibility controlled by GSAP autoAlpha */
-  visibility: hidden;
-  opacity: 0;
-}
-
-/* Horizontal accent line */
-.ph-step-line {
-  width: clamp(40px, 6vw, 80px);
-  height: 2px;
-  margin-bottom: clamp(20px, 3vh, 36px);
-  /* transform scaleX driven by GSAP */
-  transform-origin: left center;
-  border-radius: 1px;
-}
-
-/* Index number */
-.ph-index {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.65rem, 0.9vw, 0.78rem);
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: clamp(12px, 2vh, 20px);
-  display: block;
-}
-
-/* ── Big process word ─────────────────────────────────────────────────────── */
-.ph-word {
-  font-size: clamp(5rem, 14vw, 13rem);
-  line-height: 0.88;
-  margin: 0 0 clamp(28px, 4vh, 52px);
-  /* x + autoAlpha driven by GSAP */
-}
-
-.ph-word--serif {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: normal;
-}
-
-.ph-word--sans {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-}
-
-/* ── Meta: body text + tags ───────────────────────────────────────────────── */
-.ph-meta {
-  max-width: 620px;
-  /* y + autoAlpha driven by GSAP */
-}
-
-.ph-body {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.88rem, 1.2vw, 1rem);
-  font-weight: 300;
-  color: rgba(230, 232, 230, 0.6);
-  line-height: 1.78;
-  margin-bottom: clamp(20px, 3vh, 32px);
-}
-
-/* ── Skill tags ───────────────────────────────────────────────────────────── */
-.ph-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.ph-tag {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 7px 14px;
-  border: 1px solid;
-  border-radius: 999px;
-  /* color + borderColor set inline per step accent */
-  /* y + autoAlpha driven by GSAP */
-}
 
 /* ══════════════════════════════════════════════════════════════════════════
    MARQUEE  — CSS-only, no JS, zero perf cost
@@ -1073,11 +916,11 @@
 .ct-beat2-deco {
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
-  font-size: clamp(8rem, 20vw, 18rem);
-  line-height: 1;
-  color: rgba(55, 114, 255, 0.07);
+  font-size: clamp(7rem, 18vw, 16rem);
+  line-height: 0.85;
+  color: #3772ff;
   user-select: none;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.08em;
 }
 
 /* Right: content */
@@ -1355,7 +1198,7 @@
   border-radius: 50%;
   position: relative;
   /* Push ball down so only top ~140px shows */
-  transform: translateY(360px);
+  transform: translateY(340px);
   flex-shrink: 0;
 }
 
@@ -1369,11 +1212,11 @@
   align-items: center;
   justify-content: center;
   /* Eyes sit in the visible top quarter */
-  top: 28px;
+  top: 38px;
 }
 
-.ct-ball-eye--l { left: 130px; }
-.ct-ball-eye--r { right: 130px; }
+.ct-ball-eye--l { left: 150px; }
+.ct-ball-eye--r { right: 150px; }
 
 .ct-ball-pupil {
   width: 24px;
@@ -1457,6 +1300,12 @@
   display: flex;
   flex-direction: column;
   gap: clamp(32px, 5vh, 56px);
+}
+
+.pg-actions {
+  display: flex;
+  gap: 10px;
+  pointer-events: all;
 }
 
 /* ── Header row ───────────────────────────────────────────────────────────── */
@@ -1686,6 +1535,75 @@
 
 .pg-card-link:hover { opacity: 0.7; }
 
+.pg-card--ball {
+  grid-column: span 1;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pg-ball {
+  width: 88%;
+  height: 88%;
+  border-radius: 50%;
+  background: #3772ff;
+
+  
+
+  position: relative;
+  cursor: grab;
+  will-change: transform;
+}
+
+.pg-ball:active {
+  cursor: grabbing;
+}
+
+
+.pg-ball-face {
+  position: absolute;
+  inset: 0;
+}
+
+.pg-ball-eye {
+  position: absolute;
+  top: 26%;
+  width: 18%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #e6e8e6;
+}
+
+.pg-ball-eye:first-child {
+  left: 28%;
+}
+
+.pg-ball-eye:last-child {
+  right: 28%;
+}
+
+.pg-ball-eye::after {
+  content: "";
+  position: absolute;
+
+  width: 40%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  background: #080708;
+
+  top: 32%;
+  left: 18%;   /* 👈 shifted left = looking left */
+}
+
+.pg-reset-btn {
+  margin-bottom: 0;
+}
+
+
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .pg-grid {
@@ -1722,4 +1640,515 @@
   .pg-card--square {
     grid-column: span 1;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ABOUT ME
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ab-section {
+  position: relative;
+  width: 100%;
+  padding: clamp(80px, 12vh, 140px) clamp(32px, 7vw, 120px);
+  overflow: hidden;
+  background: #e6e8e6;
+  border-top: 1px solid rgba(8, 7, 8, 0.06);
+}
+
+/* ── Eyebrow ──────────────────────────────────────────────────────────────── */
+.ab-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: clamp(36px, 6vh, 64px);
+}
+
+/* ── Two-column grid ──────────────────────────────────────────────────────── */
+.ab-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(48px, 8vw, 120px);
+  align-items: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LEFT COLUMN — text
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ab-left {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vh, 48px);
+}
+
+.ab-heading {
+  font-size: clamp(4rem, 9vw, 8.5rem);
+  line-height: 0.88;
+  margin: 0;
+   color: #080708;
+}
+
+.ab-serif {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.ab-sans {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
+
+/* Body paragraphs */
+.ab-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 560px;
+}
+
+.ab-body p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.88rem, 1.2vw, 1rem);
+  font-weight: 400;
+  color: rgba(8, 7, 8, 0.65);
+  line-height: 1.82;
+  margin: 0;
+}
+
+/* Fact grid */
+.ab-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 32px;
+  padding-top: clamp(20px, 3vh, 32px);
+  border-top: 1px solid rgba(8, 7, 8, 0.08);
+}
+
+.ab-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ab-fact-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(8, 7, 8, 0.35);
+}
+
+.ab-fact-value {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.8rem, 1vw, 0.9rem);
+  font-weight: 400;
+  color: #080708;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RIGHT COLUMN — photo
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ab-photo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Enough height for the decorative elements */
+  min-height: 600px;
+  padding: 80px 60px;
+}
+
+
+/* 🔥 THIS IS THE FIX */
+.ab-photo-wrap > *:not(.ab-photo-frame):not(.ab-photo-accent):not(.ab-ring) {
+  z-index: 3;
+  position: absolute;
+}
+
+/* Decorative rotating dashed ring */
+.ab-ring {
+  position: absolute;
+  width: 110%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px dashed rgba(55, 114, 255, 0.22);
+  pointer-events: none;
+  transform-origin: center center;
+  /* Rotation driven by scroll via GSAP */
+}
+
+/* Accent color block — offset behind the photo */
+.ab-photo-accent {
+  position: absolute;
+  width: 82%;
+  aspect-ratio: 3 / 4;
+  background: #3772ff;
+  border-radius: 6px;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* FIX */
+
+  opacity: 0.15; /* reduce a bit, looks cleaner on light bg */
+  pointer-events: none;
+  z-index: 1;
+}
+/* Photo frame */
+.ab-photo-frame {
+  position: relative;
+  width: 82%;
+  aspect-ratio: 3 / 4;
+  border-radius: 6px;
+  overflow: hidden;
+
+  z-index: 2;
+  outline: 1px solid rgba(8, 7, 8, 0.08);
+}
+
+.ab-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Fallback initials when image missing */
+.ab-photo-fallback {
+  width: 100%;
+  height: 100%;
+  background: #3772ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 6rem;
+  color: #e6e8e6;
+}
+
+/* Floating "available" tag — bottom-left of the photo frame */
+.ab-tag {
+  position: absolute;
+  bottom: clamp(8px, 4%, 24px);
+  left: clamp(0px, 6%, 12px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid rgba(8, 7, 8, 0.08);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(8, 7, 8, 0.6);
+  white-space: nowrap;
+}
+
+.ab-tag-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3772ff;
+  /* Slow pulse */
+  animation: tagPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes tagPulse {
+  0%, 100% { opacity: 1; transform: scale(1);    }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .ab-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  /* Photo comes first on mobile */
+  .ab-photo-wrap { order: -1; min-height: 380px; }
+
+  .ab-photo-frame { width: 60%; }
+
+  .ab-heading { font-size: clamp(3.5rem, 14vw, 6rem); }
+}
+
+@media (max-width: 480px) {
+  .ab-facts { grid-template-columns: 1fr; }
+  .ab-photo-frame { width: 78%; }
+}
+/* ─────────────────────────────────────────────
+   PHILOSOPHY SYSTEM (FINAL DESIGN FIX)
+──────────────────────────────────────────── */
+
+.ph-section {
+  background: #080708;
+  color: #e6e8e6;
+  min-height: 160vh;
+
+  
+  padding-top: calc(80px + 60px);
+  padding-left: clamp(32px, 7vw, 120px);
+  padding-right: clamp(32px, 7vw, 120px);
+  padding-bottom: 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 48px;
+}
+/* ── HEADER ───────────────────────────── */
+
+.ph-header {
+  max-width: 900px;
+}
+
+.ph-eyebrow {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: 18px;
+}
+
+.ph-title {
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 0.9;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+}
+
+.ph-title span {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: normal;
+  color: #ffffff;
+}
+
+/* ── GRID ───────────────────────────── */
+
+.ph-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+/* ── PERFECT SQUARE CARD SYSTEM ───── */
+
+.ph-card {
+  aspect-ratio: 1 / 1;
+  position: relative;
+  padding: 28px;
+  border: 1px solid rgba(230, 232, 230, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  will-change: transform;
+}
+
+/* ── CARD COLORS (STRICT DESIGN SYSTEM) ── */
+
+.ph-card:nth-child(1) {
+  background: #3772ff;
+  color: #e6e8e6;
+}
+
+.ph-card:nth-child(2) {
+  background: #df2935;
+  color: #e6e8e6;
+}
+
+.ph-card:nth-child(3) {
+  background: #fdca40;
+  color: #080708;
+}
+
+/* ── SHAPE (GEOMETRIC ANCHOR) ── */
+
+.ph-shape {
+  width: 12px;
+  height: 12px;
+  background: currentColor;
+}
+
+.ph-circle .ph-shape {
+  border-radius: 50%;
+}
+
+.ph-square .ph-shape {
+  border-radius: 0;
+}
+
+/* ── TEXT ───────────────────────────── */
+
+.ph-card h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.ph-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* ── SKILLS (MIRROR SYSTEM) ── */
+
+.ph-skills {
+  max-width: 900px;
+}
+
+.ph-subtitle {
+  font-size: 1.4rem;
+  margin-bottom: 30px;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* same grid logic, but flexible */
+.ph-skill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ph-skill {
+  padding: 10px 14px;
+  border: 1px solid rgba(230, 232, 230, 0.2);
+  font-size: 0.85rem;
+  font-family: "Montserrat", sans-serif;
+  color: #e6e8e6;
+  transition: all 0.25s ease;
+}
+
+.ph-skill:hover {
+  background: #3772ff;
+  border-color: #3772ff;
+}
+
+/* ── RESPONSIVE ───────────────────────── */
+
+@media (max-width: 900px) {
+  .ph-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ph-skills {
+  overflow: hidden;
+}
+
+.ph-marquee-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ph-marquee {
+  display: flex;
+  width: max-content;
+  gap: 16px;
+}
+
+.ph-skill-tile {
+  flex: 0 0 auto;
+  padding: 16px 22px;
+  border: 1px solid #e6e8e6;
+  background: #080708;
+  color: #e6e8e6;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ph-skill-tile.alt:nth-child(odd) {
+  background: #3772ff;
+  color: #e6e8e6;
+  border-color: #3772ff;
+}
+
+.ph-skill-tile:nth-child(3n) {
+  background: #fdca40;
+  color: #080708;
+  border-color: #fdca40;
+}
+
+.ph-skill-tile:nth-child(4n) {
+  background: #df2935;
+  color: #e6e8e6;
+  border-color: #df2935;
+}
+
+.ph-marquee-wrap {
+  opacity: 1;
+}
+
+.ph-subtitle {
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.ph-marquee {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.ph-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.ph-marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  gap: 12px;
+  padding-right: 12px;
+}
+
+.ph-skill-tile {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: 14px 20px;
+ 
+  background: #3772ff;
+  color: #e6e8e6;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ph-skill-tile.alt:nth-child(3n + 1) {
+  background: #df2935;
+  border-color: #df2935;
+  color: #e6e8e6;
+}
+
+.ph-skill-tile.alt:nth-child(3n + 2) {
+  background: #fdca40;
+  border-color: #fdca40;
+  color: #080708;
+}
+
+.ph-skill-tile.alt:nth-child(3n) {
+  background: #e6e8e6;
+  border-color: #e6e8e6;
+  color: #080708;
 }
