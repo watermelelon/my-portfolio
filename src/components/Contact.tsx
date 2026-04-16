@@ -364,7 +364,7 @@ export default function Contact() {
                   value={form.email}
                   onChange={handleChange}
                   className="ct-input"
-                  placeholder="your@email.com"
+                  placeholder="emiliodaniel02@hotmail.com"
                 />
               </div>
 
