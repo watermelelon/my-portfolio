@@ -442,7 +442,7 @@ export default function Coldchain() {
             A motion-focused case study exploring scroll choreography,
             interaction rhythm, and interface storytelling.
           </p>
-          <a href="/projects/mojito" className="tl-next-link">
+          <a href="./mojito" className="tl-next-link">
             View next project →
           </a>
         </div>

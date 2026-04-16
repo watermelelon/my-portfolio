@@ -9,6 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 type FormStatus = "idle" | "sending" | "sent" | "error";
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xjgjgddd";
+
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const eyeLRef = useRef<HTMLDivElement>(null);
@@ -167,11 +169,8 @@ export default function Contact() {
     const wander = () => {
       if (cancelled) return;
 
-      const MAX_X = 8;
-      const MAX_Y = 4;
-
-      const tx = gsap.utils.random(-MAX_X, MAX_X);
-      const ty = gsap.utils.random(-MAX_Y, MAX_Y);
+      const tx = gsap.utils.random(-8, 8);
+      const ty = gsap.utils.random(-4, 4);
 
       gsap.to([eyeLRef.current, eyeRRef.current], {
         x: tx,
@@ -200,13 +199,23 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("sending");
 
     try {
-      // Replace this block with your real backend / Formspree / Resend request
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        throw new Error("Form submission failed");
+      }
 
       setStatus("sent");
       setForm({
@@ -220,7 +229,7 @@ export default function Contact() {
   };
 
   return (
-    <section  id="contact" ref={sectionRef} className="ct-section">
+    <section id="contact" ref={sectionRef} className="ct-section">
       <div className="ct-beat1">
         <div className="ct-beat1-inner">
           <p className="ct-eyebrow">That&apos;s a wrap</p>
@@ -240,7 +249,7 @@ export default function Contact() {
 
       <div className="ct-beat2">
         <div className="ct-beat2-left" aria-hidden="true">
-          <span className="ct-beat2-deco">Let's Talk</span>
+          <span className="ct-beat2-deco">Let&apos;s Talk</span>
         </div>
 
         <div className="ct-beat2-right">
@@ -364,7 +373,7 @@ export default function Contact() {
                   value={form.email}
                   onChange={handleChange}
                   className="ct-input"
-                  placeholder="emiliodaniel02@hotmail.com"
+                  placeholder="your@email.com"
                 />
               </div>
 

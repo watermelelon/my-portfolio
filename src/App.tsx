@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Coldchain from "./pages/projects/coldchain";
 import Mojito from "./pages/projects/mojito";
+import Taxi from "./pages/projects/taxi";
 
 
 
@@ -22,6 +23,7 @@ const App = () => (
   <Route path="/" element={<Index />} />
         <Route path="/projects/coldchain" element={<Coldchain />} />
         <Route path="/projects/mojito" element={<Mojito />} />
+        <Route path="/projects/taxi" element={<Taxi />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </BrowserRouter>
