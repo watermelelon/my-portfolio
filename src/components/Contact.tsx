@@ -220,7 +220,7 @@ export default function Contact() {
   };
 
   return (
-    <section ref={sectionRef} className="ct-section">
+    <section  id="contact" ref={sectionRef} className="ct-section">
       <div className="ct-beat1">
         <div className="ct-beat1-inner">
           <p className="ct-eyebrow">That&apos;s a wrap</p>

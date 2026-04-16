@@ -420,21 +420,28 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
+
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-size: 0.8rem;          /* slightly bigger */
+  font-weight: 700;           /* stronger */
+  letter-spacing: 0.14em;
+
   text-transform: uppercase;
   text-decoration: none;
-  padding: 12px 24px;
-  border: 1px solid;
+
+  padding: 14px 28px;         /* more body */
+  border: 2px solid #e6e8e6;  /* thicker border */
   border-radius: 999px;
+
   align-self: flex-start;
-  transition: opacity 0.2s ease;
+
+  transition: all 0.25s ease;
 }
 
 .fw-link:hover {
-  opacity: 0.7;
+  background: #080708;
+  color: #080708;
+  border-color: #e6e8e6;
 }
 
 .fw-arrow {
@@ -463,100 +470,16 @@
     font-size: clamp(2.5rem, 11vw, 4rem);
   }
 }
-
-
-
-/* ══════════════════════════════════════════════════════════════════════════
-   MARQUEE  — CSS-only, no JS, zero perf cost
-   Two rows: row 1 goes left, row 2 goes right.
-   ══════════════════════════════════════════════════════════════════════════ */
-.ph-marquee-wrap {
-  width: 100%;
-  background: #080708;
-  padding: clamp(28px, 5vh, 52px) 0;
-  border-top: 1px solid rgba(230, 232, 230, 0.06);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  /* Positioned below the pinned stage — pinSpacing pushes content down */
-}
-
-.ph-marquee {
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-}
-
-.ph-marquee span {
-  display: inline-block;
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.72rem, 1.1vw, 0.9rem);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(230, 232, 230, 0.28);
-}
-
-/* Forward: right to left */
-.ph-marquee--fwd span {
-  animation: marqueeFwd 28s linear infinite;
-}
-
-/* Reverse: left to right */
-.ph-marquee--rev span {
-  animation: marqueeRev 32s linear infinite;
-  color: rgba(55, 114, 255, 0.3);
-}
-
-@keyframes marqueeFwd {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-33.333%); }
-}
-
-@keyframes marqueeRev {
-  0%   { transform: translateX(-33.333%); }
-  100% { transform: translateX(0); }
-}
-
-/* Pause on hover — subtle respect for the user */
-.ph-marquee-wrap:hover .ph-marquee span {
-  animation-play-state: paused;
-}
-
-/* ── Responsive ───────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .ph-word {
-    font-size: clamp(3.5rem, 18vw, 6rem);
-  }
-
-  .ph-step {
-    padding: 80px 24px 32px;
-  }
-
-  .ph-tags {
-    gap: 8px;
-  }
-
-  .ph-tag {
-    font-size: 0.62rem;
-    padding: 6px 11px;
-  }
-}
-
 /* ═══════════════════════════════════════════════════════════════════════════
-   TIMELINE — overrides for Aceternity's Timeline component
-   Import this file on any project timeline page.
+   TIMELINE FROM FEATURED PROJECTS
    ═══════════════════════════════════════════════════════════════════════════ */
-
-/* ── Page wrapper ─────────────────────────────────────────────────────────── */
 .tl-page {
   background: #080708;
   min-height: 100vh;
   width: 100%;
+  color: #e6e8e6;
 }
 
-/* ── Page header ──────────────────────────────────────────────────────────── */
 .tl-page-header {
   padding: clamp(48px, 8vh, 100px) clamp(32px, 7vw, 120px) clamp(32px, 5vh, 64px);
   border-bottom: 1px solid rgba(230, 232, 230, 0.06);
@@ -574,7 +497,10 @@
   margin-bottom: 32px;
   transition: color 0.2s ease;
 }
-.tl-back:hover { color: #e6e8e6; }
+
+.tl-back:hover {
+  color: #e6e8e6;
+}
 
 .tl-page-eyebrow {
   font-family: 'Montserrat', sans-serif;
@@ -601,68 +527,106 @@
 
 .tl-page-subtitle {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
   font-weight: 300;
-  color: rgba(230, 232, 230, 0.45);
+  color: rgba(230, 232, 230, 0.55);
   letter-spacing: 0.02em;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   ACETERNITY TIMELINE OVERRIDES
-   The Timeline component uses Tailwind dark: classes. We override the key
-   colors here to match our design system regardless of system theme.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Overview ───────────────────────────────────────── */
+.tl-overview {
+  padding: clamp(36px, 6vh, 72px) clamp(32px, 7vw, 120px);
+  border-bottom: 1px solid rgba(230, 232, 230, 0.06);
+}
 
-/* Outer container background */
+.tl-overview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(260px, 0.8fr);
+  gap: clamp(28px, 5vw, 88px);
+  align-items: start;
+}
+
+.tl-overview-main {
+  padding-right: clamp(0px, 2vw, 20px);
+}
+
+.tl-overview-label,
+.tl-meta-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #3772ff;
+  margin-bottom: 12px;
+}
+
+.tl-overview-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  line-height: 1.05;
+  color: rgba(230, 232, 230, 0.86);
+  margin: 0 0 18px;
+  max-width: 20ch;
+}
+
+.tl-overview-copy,
+.tl-meta-value {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1rem, 1.1vw, 1.15rem);
+  line-height: 1.78;
+  color: rgba(230, 232, 230, 0.86);
+}
+
+.tl-meta-block + .tl-meta-block {
+  margin-top: 24px;
+}
+
+/* ── Timeline overrides ─────────────────────────────── */
 .tl-page [class*="Timeline"],
 .tl-page [class*="timeline"] {
   background: #080708 !important;
 }
 
-/* The vertical line */
 .tl-page [class*="bg-neutral-200"],
 .tl-page [class*="dark:bg-neutral-700"] {
   background: rgba(230, 232, 230, 0.08) !important;
 }
 
-/* The progress line (fills as you scroll) */
 .tl-page [class*="bg-gradient-to-b"] {
   background: linear-gradient(to bottom, #3772ff, #df2935) !important;
 }
 
-/* Year / title labels in the left column */
-.tl-page h3 {
-  font-family: 'Montserrat', sans-serif !important;
-  font-weight: 800 !important;
-  font-size: clamp(1.4rem, 3vw, 2.2rem) !important;
-  color: #1c1c1c !important;
-  letter-spacing: -0.01em !important;
-}
-
-/* Dot on the timeline */
 .tl-page [class*="rounded-full"][class*="border"] {
   background: #080708 !important;
   border-color: #3772ff !important;
 }
 
-/* ── Content blocks (our custom classes) ─────────────────────────────────── */
+/* Timeline section titles */
+.tl-page h3 {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(1.4rem, 3vw, 2.2rem) !important;
+  color: #080708 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* ── Content blocks ─────────────────────────────────── */
 .tl-content {
   padding-bottom: 8px;
 }
 
 .tl-body {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1rem, 1.3vw, 1.4rem);
-  font-weight: 300;
-  color: rgb(31, 31, 31);
-  line-height: 1.78;
+  font-size: clamp(1.2rem, 1.25vw, 1.4rem);
+  font-weight: 400;
+  color: #080708;
+  line-height: 1.8;
   margin-bottom: 24px;
-  max-width: 560px;
+  max-width: 680px;
 }
 
-
-
-/* Tags row */
+/* Tags */
 .tl-tags {
   display: flex;
   flex-wrap: wrap;
@@ -692,7 +656,7 @@
 
 .tl-check {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.9 rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #3772ff;
   padding-left: 20px;
@@ -707,7 +671,7 @@
   font-weight: 600;
 }
 
-/* Stats row */
+/* Stats */
 .tl-stats {
   display: flex;
   gap: clamp(24px, 4vw, 56px);
@@ -723,9 +687,9 @@
 
 .tl-stat-num {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 800;
-  color: #000000;
+  color: #080708;
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -736,36 +700,60 @@
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(230, 232, 230, 0.3);
+  color: #080708;
 }
 
-/* Image grid */
+/* ── Big image grid with captions ───────────────────── */
 .tl-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 4px;
+  gap: 18px;
+  margin-top: 8px;
+  align-items: start;
+}
+
+.tl-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  min-width: 0;
 }
 
 .tl-img {
   width: 100%;
-  height: clamp(100px, 18vw, 240px);
+  height: clamp(220px, 24vw, 340px);
   object-fit: cover;
   border-radius: 6px;
   display: block;
-  opacity: 0.85;
-  
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-  transition: opacity 0.3s ease;
+  opacity: 0.95;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.tl-img:hover { opacity: 1; }
+.tl-img:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
 
-/* ── Responsive ───────────────────────────────────────────────────────────── */
+.tl-caption {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #3b3b3b;
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .tl-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 640px) {
   .tl-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .tl-stats {
@@ -774,6 +762,10 @@
 
   .tl-page-header {
     padding: 48px 24px 32px;
+  }
+
+  .tl-overview {
+    padding: 32px 24px;
   }
 }
 
@@ -1392,7 +1384,7 @@
   transition: box-shadow 0.3s ease;
 }
 
-.pg-card:hover {
+.pg-card:not(.pg-card--ball):hover {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
@@ -1546,12 +1538,10 @@
 }
 
 .pg-ball {
-  width: 88%;
-  height: 88%;
+  width: 65%;
+  height: 65%;
   border-radius: 50%;
   background: #3772ff;
-
-  
 
   position: relative;
   cursor: grab;
@@ -2151,4 +2141,10 @@
   background: #e6e8e6;
   border-color: #e6e8e6;
   color: #080708;
+}
+
+.hero-name {
+  color: #3772ff;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }

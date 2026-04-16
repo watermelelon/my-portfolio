@@ -129,7 +129,8 @@ export default function FeaturedWork() {
   }, { scope: wrapRef });
 
   return (
-    // wrapRef is the pinned container — must be exactly 100vh tall
+    <section id="featured-work">
+    
     <div ref={wrapRef} className="fw-wrap">
 
       {/* strip is the wide horizontal row that gets translated */}
@@ -220,5 +221,6 @@ export default function FeaturedWork() {
 
       </div>
     </div>
+    </section>
   );
 }

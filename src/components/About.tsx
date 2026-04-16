@@ -10,8 +10,8 @@ import StickerPeel from './StickerPeel'
 gsap.registerPlugin(ScrollTrigger);
 
 const FACTS = [
-  { label: "Based in",    value: "Thunder Bay · Quito" },
-  { label: "Studying",    value: "Computer Science" },
+  { label: "Based in",    value: "Thunder Bay / Quito" },
+  { label: "Studied",    value: " HBSc. in Computer Science" },
   { label: "Focus",       value: "UI/UX · Motion · Systems" },
   { label: "Available",   value: "Open to opportunities" },
 ];
@@ -67,7 +67,7 @@ export default function About() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="ab-section">
+    <section  id="about"ref={sectionRef} className="ab-section">
   
 
       {/* ── Eyebrow ──────────────────────────────────────────────────── */}
@@ -87,12 +87,12 @@ export default function About() {
 
           <div className="ab-body">
             <p>
-              I’m a 22-year-old designer and developer originally from Quito, Ecuador, now based in Thunder Bay, Canada, where I studied Computer Science. 
-              This has allowed me to work across cultures, time zones, and different contexts.
+              I’m a 22-year-old designer and developer originally from Quito, Ecuador, now based in Thunder Bay, Canada,
+               where <strong>I studied and graduated in Computer Science</strong> at Lakehead University in 2025. 
+              This has allowed me to work across cultures, meet new people, and work in different contexts.
             </p>
             <p>
-              As a recent graduate, I’ve explored different areas within the field, but I’ve found myself drawn to building digital experiences—particularly those focused on design, user experience,
-               and creating spaces that are genuinely pleasant to interact with.
+              As a recent graduate, I’ve explored different areas within the field, but I’ve found myself drawn to building digital experiences—particularly those focused on <strong> design, user experience, and creating spaces </strong>  that are genuinely pleasant to interact with.
             </p>
             <p>
               Outside of work, I enjoy reading, board games, music festivals, and keeping up with new film releases.

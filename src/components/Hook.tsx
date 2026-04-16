@@ -134,7 +134,7 @@ export default function Hook() {
     // ── Plummet straight down ───────────────────────────────────────────────
     // Target Y: far enough below stageCY to guarantee off-screen on any device.
     // stageCY + vh is always the bottom edge + one full screen of buffer.
-    const plummetY = stageCY + 100; // from stage center, this exits the bottom
+    const plummetY = stageCY + 110; // from stage center, this exits the bottom
 
     master.fromTo(ball,
       { x: pts[3].x, y: pts[3].y, scale: 1.0 },
@@ -187,7 +187,7 @@ export default function Hook() {
           {" "}<span className="headline-sans">real&nbsp;interfaces.</span>
         </h1>
         <p className="hero-desc">
-          I&apos;m Emilio — I design and build scalable UI systems<br className="hidden md:block" />
+         I&apos;m <span className="hero-name">Emilio Santamaria</span> — I design and build scalable UI systems<br className="hidden md:block" />
           with a strong focus on interaction, motion, and product thinking.
         </p>
         <div className="cta-row">

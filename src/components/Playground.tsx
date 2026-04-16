@@ -321,7 +321,7 @@ export default function Playground() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="pg-section">
+    <section id="playground" ref={sectionRef} className="pg-section">
       <div className="pg-header">
         <div>
           <p className="pg-eyebrow">Experiments &amp; side projects</p>

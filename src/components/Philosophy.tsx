@@ -120,7 +120,7 @@ export default function Philosophy() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="ph-section">
+    <section id="philosophy" ref={sectionRef} className="ph-section">
       <div className="ph-header">
         <p className="ph-eyebrow">How I think</p>
         <h2 className="ph-title">
