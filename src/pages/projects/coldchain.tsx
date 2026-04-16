@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Timeline } from "@/components/ui/timeline";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -442,9 +443,9 @@ export default function Coldchain() {
             A motion-focused case study exploring scroll choreography,
             interaction rhythm, and interface storytelling.
           </p>
-          <a href="./mojito" className="tl-next-link">
+          <Link to="/projects/mojito" className="tl-next-link">
             View next project →
-          </a>
+          </Link>
         </div>
       </footer>
 

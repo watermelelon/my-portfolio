@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Timeline } from "@/components/ui/timeline";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -453,9 +454,9 @@ export default function GsapInteractionStudy() {
              and handle large volume of ride requests while ensuring a smooth user experience.
           </p>
 
-          <a href="./taxi" className="tl-next-link">
-            View next project →
-          </a>
+          <Link to="/projects/taxi" className="tl-next-link">
+                      View next project →
+          </Link>
         </div>
       </footer>
     </div>
