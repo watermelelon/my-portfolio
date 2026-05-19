@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Montserrat:wght@300;400;600;800&display=swap');
 
 @font-face {
   font-family: 'Instrument Serif';
@@ -27,6 +27,7 @@
   position: relative;
   width: 100%;
   height: 100vh;
+  /* FIX: prevent horizontal overflow on small screens */
   overflow: hidden;
   background: #080708;
   display: flex;
@@ -63,7 +64,8 @@
   bottom: 10vh;
   left: clamp(24px, 5vw, 80px);
   z-index: 10;
-  max-width: 700px;
+  /* FIX: was 700px fixed, now leaves room on small screens */
+  max-width: min(700px, calc(100vw - 48px));
 }
 
 .hero-kicker {
@@ -77,11 +79,19 @@
 }
 
 .hero-headline {
-  font-size: clamp(3.2rem, 7.5vw, 7rem);
+  font-size: clamp(2rem, 7.5vw, 7rem);
   line-height: 0.92;
   margin: 0 0 28px;
   color: #e6e8e6;
-  white-space: nowrap;
+  /* FIX: white-space: nowrap was breaking layout on mobile */
+  white-space: normal;
+}
+
+/* FIX: allow wrapping on small screens specifically */
+@media (min-width: 640px) {
+  .hero-headline {
+    white-space: nowrap;
+  }
 }
 
 .headline-serif {
@@ -113,6 +123,8 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  /* FIX: prevent overflow if buttons are too wide on tiny screens */
+  flex-wrap: wrap;
 }
 
 .cta-btn {
@@ -155,14 +167,9 @@
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CHARACTER STAGE
-   ─────────────────────────────────────────────────────────────────────────
-   Anchored at 62% from top, 50% from left.
-   The ball's GSAP x/y offsets move it relative to this anchor.
-   Final landing position (on "interfaces"): x≈-60, y≈-200 from here.
    ═══════════════════════════════════════════════════════════════════════════ */
 .character-stage {
   position: absolute;
-  /* Exact viewport center — GSAP x/y offsets are measured from here */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -175,6 +182,14 @@
   pointer-events: none;
 }
 
+/* FIX: scale the ball down on very small screens so it doesn't overflow */
+@media (max-width: 360px) {
+  .character-stage {
+    width: 200px;
+    height: 200px;
+  }
+}
+
 /* ── Ball ─────────────────────────────────────────────────────────────── */
 .ball {
   width: 260px;
@@ -185,6 +200,13 @@
   transform-origin: center center;
   will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+@media (max-width: 360px) {
+  .ball {
+    width: 200px;
+    height: 200px;
+  }
 }
 
 /* Eyes */
@@ -206,8 +228,14 @@
   height: 20px;
   background: #080708;
   border-radius: 50%;
-    /* 👇 break the "perfect center" */
-  transform: translate(6px, 10px); /* left + slightly up */
+  /* FIX: was translate(6px, 10px) — pupils were too low and too far out (creepy).
+     Now shifted inward (toward center) and slightly up for a cute, friendly look. */
+  transform: translate(7px, px);
+}
+
+/* Mirror the right pupil inward */
+.eye-r .pupil {
+  transform: translate(-7px, 1px);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -250,25 +278,21 @@
    FEATURED WORK — horizontal scroll section
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Outer wrapper: pinned by ScrollTrigger, exactly viewport height ──────── */
 .fw-wrap {
   width: 100%;
   height: 100vh;
-  overflow: hidden;          /* clips the strip as it translates */
+  overflow: hidden;
   position: relative;
   background: #080708;
 }
 
-/* ── Strip: all panels side-by-side in one row ────────────────────────────── */
 .fw-strip {
   display: flex;
   flex-direction: row;
   height: 100%;
-  /* Width is determined by children — no explicit width needed */
   will-change: transform;
 }
 
-/* ── Shared panel base ────────────────────────────────────────────────────── */
 .fw-intro-panel,
 .fw-card {
   flex: 0 0 100vw;
@@ -299,7 +323,7 @@
 }
 
 .fw-heading {
-  font-size: clamp(4.5rem, 12vw, 11rem);
+  font-size: clamp(3rem, 12vw, 11rem);
   line-height: 0.86;
   margin: 0 0 40px;
   color: #e6e8e6;
@@ -329,7 +353,7 @@
 .fw-card {
   display: flex;
   flex-direction: column;
-  padding: clamp(28px, 4vh, 52px) clamp(32px, 5vw, 80px);
+  padding: clamp(28px, 4vh, 52px) clamp(20px, 5vw, 80px);
 }
 
 /* ── Top row: number ──────────────────────────────────────────────────────── */
@@ -346,7 +370,6 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  /* color driven by JS scramble */
   transition: color 0.05s;
 }
 
@@ -355,7 +378,7 @@
   flex: 1;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: clamp(32px, 5vw, 72px);
+  gap: clamp(24px, 5vw, 72px);
   align-items: center;
   min-height: 0;
 }
@@ -394,22 +417,21 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(16px, 2.5vh, 28px);
+  gap: clamp(12px, 2.5vh, 28px);
 }
 
 .fw-card-title {
   font-family: 'Instrument Serif', serif;
   font-style: italic;
   font-weight: normal;
-  font-size: clamp(3.2rem, 6vw, 6rem);
+  font-size: clamp(2.2rem, 6vw, 6rem);
   line-height: 0.88;
-  /* color driven by JS scramble */
   transition: color 0.05s;
 }
 
 .fw-desc {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1.25rem, 1.3vw, 1.5rem);
+  font-size: clamp(0.85rem, 1.3vw, 1.5rem);
   font-weight: 400;
   line-height: 1.78;
   max-width: 500px;
@@ -420,21 +442,16 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.8rem;          /* slightly bigger */
-  font-weight: 700;           /* stronger */
+  font-size: 0.8rem;
+  font-weight: 700;
   letter-spacing: 0.14em;
-
   text-transform: uppercase;
   text-decoration: none;
-
-  padding: 14px 28px;         /* more body */
-  border: 2px solid #e6e8e6;  /* thicker border */
+  padding: 14px 28px;
+  border: 2px solid #e6e8e6;
   border-radius: 999px;
-
   align-self: flex-start;
-
   transition: all 0.25s ease;
 }
 
@@ -458,7 +475,7 @@
   .fw-card-body {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    gap: 24px;
+    gap: 20px;
     overflow-y: auto;
   }
 
@@ -467,11 +484,23 @@
   }
 
   .fw-card-title {
-    font-size: clamp(2.5rem, 11vw, 4rem);
+    font-size: clamp(2rem, 11vw, 3.5rem);
+  }
+
+  /* FIX: desc font was too large on mobile at 1.25rem base */
+  .fw-desc {
+    font-size: clamp(0.82rem, 3.5vw, 1rem);
+  }
+
+  /* FIX: link padding was too wide on small screens */
+  .fw-link {
+    padding: 10px 20px;
+    font-size: 0.72rem;
   }
 }
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   TIMELINE FROM FEATURED PROJECTS
+   TIMELINE / PROJECT PAGE
    ═══════════════════════════════════════════════════════════════════════════ */
 .tl-page {
   background: #080708;
@@ -481,7 +510,7 @@
 }
 
 .tl-page-header {
-  padding: clamp(48px, 8vh, 100px) clamp(32px, 7vw, 120px) clamp(32px, 5vh, 64px);
+  padding: clamp(48px, 8vh, 100px) clamp(24px, 7vw, 120px) clamp(32px, 5vh, 64px);
   border-bottom: 1px solid rgba(230, 232, 230, 0.06);
 }
 
@@ -513,7 +542,7 @@
 }
 
 .tl-page-title {
-  font-size: clamp(4rem, 10vw, 9rem);
+  font-size: clamp(2.8rem, 10vw, 9rem);
   line-height: 0.88;
   color: #e6e8e6;
   margin: 0 0 20px;
@@ -527,22 +556,22 @@
 
 .tl-page-subtitle {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-size: clamp(0.88rem, 1.2vw, 1.05rem);
   font-weight: 300;
   color: rgba(230, 232, 230, 0.55);
   letter-spacing: 0.02em;
 }
 
-/* ── Overview ───────────────────────────────────────── */
+/* ── Overview ───────────────────────────── */
 .tl-overview {
-  padding: clamp(36px, 6vh, 72px) clamp(32px, 7vw, 120px);
+  padding: clamp(32px, 6vh, 72px) clamp(24px, 7vw, 120px);
   border-bottom: 1px solid rgba(230, 232, 230, 0.06);
 }
 
 .tl-overview-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.9fr) minmax(260px, 0.8fr);
-  gap: clamp(28px, 5vw, 88px);
+  grid-template-columns: minmax(0, 1.9fr) minmax(220px, 0.8fr);
+  gap: clamp(24px, 5vw, 88px);
   align-items: start;
 }
 
@@ -563,7 +592,7 @@
 
 .tl-overview-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  font-size: clamp(1.4rem, 3vw, 3.2rem);
   line-height: 1.05;
   color: rgba(230, 232, 230, 0.86);
   margin: 0 0 18px;
@@ -573,7 +602,7 @@
 .tl-overview-copy,
 .tl-meta-value {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1rem, 1.1vw, 1.15rem);
+  font-size: clamp(0.9rem, 1.1vw, 1.15rem);
   line-height: 1.78;
   color: rgba(230, 232, 230, 0.86);
 }
@@ -602,11 +631,10 @@
   border-color: #3772ff !important;
 }
 
-/* Timeline section titles */
 .tl-page h3 {
   font-family: 'Montserrat', sans-serif !important;
   font-weight: 800 !important;
-  font-size: clamp(1.4rem, 3vw, 2.2rem) !important;
+  font-size: clamp(1.2rem, 3vw, 2.2rem) !important;
   color: #080708 !important;
   letter-spacing: -0.01em !important;
 }
@@ -618,7 +646,7 @@
 
 .tl-body {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1.2rem, 1.25vw, 1.4rem);
+  font-size: clamp(0.95rem, 1.25vw, 1.4rem);
   font-weight: 400;
   color: #080708;
   line-height: 1.8;
@@ -674,7 +702,7 @@
 /* Stats */
 .tl-stats {
   display: flex;
-  gap: clamp(24px, 4vw, 56px);
+  gap: clamp(20px, 4vw, 56px);
   flex-wrap: wrap;
   margin-bottom: 28px;
 }
@@ -687,7 +715,7 @@
 
 .tl-stat-num {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
   font-weight: 800;
   color: #080708;
   line-height: 1;
@@ -722,7 +750,7 @@
 
 .tl-img {
   width: 100%;
-  height: clamp(220px, 24vw, 340px);
+  height: clamp(160px, 24vw, 340px);
   object-fit: cover;
   border-radius: 6px;
   display: block;
@@ -761,11 +789,11 @@
   }
 
   .tl-page-header {
-    padding: 48px 24px 32px;
+    padding: 48px 20px 32px;
   }
 
   .tl-overview {
-    padding: 32px 24px;
+    padding: 32px 20px;
   }
 }
 
@@ -781,7 +809,6 @@
   overflow: hidden;
 }
 
-/* Shared eyebrow */
 .ct-eyebrow,
 .ct-beat3-eyebrow {
   font-family: 'Montserrat', sans-serif;
@@ -794,7 +821,6 @@
   display: block;
 }
 
-/* Shared typography */
 .ct-serif {
   font-family: 'Instrument Serif', serif;
   font-style: italic;
@@ -806,18 +832,15 @@
   font-weight: 800;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   BEAT 1 — "Thanks for visiting."
-   Full viewport, vertically centered, left-aligned
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── BEAT 1 ─────────────────────────────────────────────────────────────── */
 .ct-beat1 {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(80px, 12vh, 140px) clamp(32px, 7vw, 120px);
+  /* FIX: bottom padding was missing, content could overlap scroll nudge */
+  padding: clamp(80px, 12vh, 140px) clamp(24px, 7vw, 120px) clamp(80px, 14vh, 160px);
   position: relative;
-  /* Subtle top border to separate from previous section */
   border-top: 1px solid rgba(230, 232, 230, 0.06);
 }
 
@@ -826,40 +849,36 @@
 }
 
 .ct-beat1-title {
-  font-size: clamp(5rem, 13vw, 12rem);
+  font-size: clamp(3rem, 13vw, 12rem);
   line-height: 0.88;
   margin: 0 0 clamp(24px, 4vh, 48px);
   position: relative;
   display: inline-block;
 }
 
-/* Animated underline under the last word */
 .ct-underline {
   display: block;
   height: 3px;
   background: #3772ff;
   border-radius: 2px;
   margin-top: 12px;
-  /* width matches the .ct-sans span — kept full-width for simplicity */
   width: 100%;
   transform-origin: left center;
-  /* scaleX animated by GSAP */
 }
 
 .ct-beat1-sub {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  font-size: clamp(0.9rem, 1.8vw, 1.35rem);
   font-weight: 300;
   color: rgba(230, 232, 230, 0.45);
   line-height: 1.6;
   max-width: 540px;
 }
 
-/* Scroll nudge — bottom center of beat 1 */
 .ct-scroll-nudge {
   position: absolute;
   bottom: clamp(28px, 5vh, 52px);
-  left: clamp(32px, 7vw, 120px);
+  left: clamp(24px, 7vw, 120px);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -885,20 +904,17 @@
   50%       { transform: scaleX(1.6); opacity: 1; }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   BEAT 2 — Availability
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── BEAT 2 ─────────────────────────────────────────────────────────────── */
 .ct-beat2 {
   min-height: 85vh;
   display: grid;
   grid-template-columns: 1fr 1.4fr;
   align-items: center;
-  padding: clamp(60px, 10vh, 120px) clamp(32px, 7vw, 120px);
-  gap: clamp(40px, 6vw, 80px);
+  padding: clamp(60px, 10vh, 120px) clamp(24px, 7vw, 120px);
+  gap: clamp(32px, 6vw, 80px);
   border-top: 1px solid rgba(230, 232, 230, 0.06);
 }
 
-/* Left: decorative large number */
 .ct-beat2-left {
   display: flex;
   align-items: center;
@@ -908,18 +924,17 @@
 .ct-beat2-deco {
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
-  font-size: clamp(7rem, 18vw, 16rem);
+  font-size: clamp(5rem, 18vw, 16rem);
   line-height: 0.85;
   color: #3772ff;
   user-select: none;
   letter-spacing: -0.08em;
 }
 
-/* Right: content */
 .ct-beat2-right {
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 4vh, 40px);
+  gap: clamp(20px, 4vh, 40px);
 }
 
 .ct-avail-label {
@@ -954,14 +969,14 @@
 .ct-avail-text {
   font-family: 'Instrument Serif', serif;
   font-style: italic;
-  font-size: clamp(1.6rem, 3.5vw, 3rem);
+  font-size: clamp(1.4rem, 3.5vw, 3rem);
   color: #e6e8e6;
   line-height: 1;
 }
 
 .ct-avail-copy {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-size: clamp(0.82rem, 1.2vw, 1rem);
   font-weight: 300;
   color: rgba(230, 232, 230, 0.45);
   line-height: 1.78;
@@ -970,18 +985,16 @@
   padding-left: 20px;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   BEAT 3 — Contact panel
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── BEAT 3 ─────────────────────────────────────────────────────────────── */
 .ct-beat3 {
-  padding: clamp(60px, 10vh, 100px) clamp(32px, 7vw, 120px);
+  padding: clamp(48px, 10vh, 100px) clamp(24px, 7vw, 120px);
   border-top: 1px solid rgba(230, 232, 230, 0.06);
 }
 
 .ct-contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: clamp(40px, 7vw, 100px);
+  gap: clamp(36px, 7vw, 100px);
   align-items: start;
   margin-top: 48px;
 }
@@ -990,7 +1003,7 @@
 .ct-contact-left {
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 4vh, 36px);
+  gap: clamp(20px, 4vh, 36px);
 }
 
 .ct-contact-info {
@@ -1010,7 +1023,7 @@
 
 .ct-info-val {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  font-size: clamp(0.82rem, 1.1vw, 0.95rem);
   font-weight: 400;
   color: #e6e8e6;
 }
@@ -1021,7 +1034,6 @@
 }
 .ct-link:hover { color: #3772ff; }
 
-/* Socials */
 .ct-socials {
   display: flex;
   flex-direction: column;
@@ -1053,7 +1065,6 @@
   color: #3772ff;
 }
 
-/* Resume button */
 .ct-resume-btn {
   display: inline-flex;
   align-items: center;
@@ -1085,7 +1096,7 @@
 }
 
 .ct-form-heading {
-  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-size: clamp(1.6rem, 3.5vw, 3rem);
   line-height: 1.0;
   color: #e6e8e6;
   font-weight: 400;
@@ -1166,21 +1177,15 @@
   margin-top: -8px;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   PEEKING BALL CHARACTER
-   Ball is 500px. Only ~125px (25%) shows above the bottom edge.
-   Centered horizontally, pushed down so only the top quarter is visible.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Peeking ball ──────────────────────────────────────────────────────── */
 .ct-ball-wrap {
   position: relative;
   width: 100%;
-  /* Height = how much of the ball we want to show */
   height: 140px;
   overflow: visible;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  /* GSAP animates y: from +280 to 0 */
 }
 
 .ct-ball {
@@ -1189,7 +1194,6 @@
   background: #3772ff;
   border-radius: 50%;
   position: relative;
-  /* Push ball down so only top ~140px shows */
   transform: translateY(340px);
   flex-shrink: 0;
 }
@@ -1203,7 +1207,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Eyes sit in the visible top quarter */
   top: 38px;
 }
 
@@ -1218,11 +1221,9 @@
   will-change: transform;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   FOOTER LINE
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Footer ────────────────────────────────────────────────────────────── */
 .ct-footer {
-  padding: clamp(20px, 3vh, 32px) clamp(32px, 7vw, 120px);
+  padding: clamp(20px, 3vh, 32px) clamp(24px, 7vw, 120px);
   border-top: 1px solid rgba(230, 232, 230, 0.06);
   display: flex;
   align-items: center;
@@ -1238,9 +1239,7 @@
   text-align: center;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Responsive ────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .ct-beat2 {
     grid-template-columns: 1fr;
@@ -1275,23 +1274,27 @@
     width: 16px;
     height: 16px;
   }
+
+  /* FIX: contact grid needed more breathing room at top on mobile */
+  .ct-contact-grid {
+    margin-top: 32px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PLAYGROUND — bento grid that explodes to chaos
+   PLAYGROUND — bento grid
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .pg-section {
   position: relative;
   width: 100%;
-  /* Tall enough so scattered cards don't clip */
   min-height: 100vh;
   background: #080708;
   overflow: hidden;
-  padding: clamp(48px, 8vh, 80px) clamp(32px, 5vw, 80px) clamp(60px, 10vh, 100px);
+  padding: clamp(48px, 8vh, 80px) clamp(20px, 5vw, 80px) clamp(60px, 10vh, 100px);
   display: flex;
   flex-direction: column;
-  gap: clamp(32px, 5vh, 56px);
+  gap: clamp(28px, 5vh, 56px);
 }
 
 .pg-actions {
@@ -1300,7 +1303,6 @@
   pointer-events: all;
 }
 
-/* ── Header row ───────────────────────────────────────────────────────────── */
 .pg-header {
   display: flex;
   align-items: flex-end;
@@ -1308,6 +1310,9 @@
   position: relative;
   z-index: 30;
   pointer-events: none;
+  /* FIX: flex-wrap so buttons don't overflow on mobile */
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .pg-eyebrow {
@@ -1321,7 +1326,7 @@
 }
 
 .pg-title {
-  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  font-size: clamp(2rem, 7vw, 6.5rem);
   line-height: 0.9;
   color: #e6e8e6;
   margin: 0;
@@ -1338,7 +1343,6 @@
   font-weight: 800;
 }
 
-/* Reset button */
 .pg-reset-btn {
   pointer-events: all;
   font-family: 'Montserrat', sans-serif;
@@ -1353,34 +1357,28 @@
   padding: 9px 20px;
   cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease;
-  margin-bottom: 6px;
+  margin-bottom: 0;
 }
 .pg-reset-btn:hover {
   color: #e6e8e6;
   border-color: rgba(230, 232, 230, 0.3);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   BENTO GRID
-   6 cells in a 3-col grid. GSAP offsets them from this base layout.
-   Grid positions are the "order" state; scatter is the "chaos" state.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Grid ─────────────────────────────────────────────────────────────────── */
 .pg-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto auto;
-  gap: clamp(12px, 2vw, 20px);
+  gap: clamp(10px, 2vw, 20px);
   position: relative;
   z-index: 5;
 }
 
-/* ── Card base ────────────────────────────────────────────────────────────── */
 .pg-card {
   position: relative;
   overflow: hidden;
   cursor: pointer;
   will-change: transform;
-  /* Smooth z-index transition for hover lift */
   transition: box-shadow 0.3s ease;
 }
 
@@ -1388,22 +1386,18 @@
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* ── Shape variants ───────────────────────────────────────────────────────── */
-/* Standard rectangle */
 .pg-card--rect {
   grid-column: span 1;
   aspect-ratio: 4 / 3;
   border-radius: 6px;
 }
 
-/* Wide rectangle — spans 2 columns */
 .pg-card--rect-wide {
   grid-column: span 2;
   aspect-ratio: 16 / 7;
   border-radius: 6px;
 }
 
-/* Tall rectangle */
 .pg-card--rect-tall {
   grid-column: span 1;
   grid-row: span 2;
@@ -1412,14 +1406,12 @@
   border-radius: 6px;
 }
 
-/* Square */
 .pg-card--square {
   grid-column: span 1;
   aspect-ratio: 1;
   border-radius: 6px;
 }
 
-/* Circle — clip-path so it's actually round, not just border-radius */
 .pg-card--circle {
   grid-column: span 1;
   aspect-ratio: 1;
@@ -1427,26 +1419,19 @@
   overflow: hidden;
 }
 
-/* Diamond — rotated square.
-   We rotate the card itself; the inner content counter-rotates. */
 .pg-card--diamond {
   grid-column: span 1;
   aspect-ratio: 1;
   border-radius: 8px;
   transform-origin: center center;
-  /* Base rotation — GSAP adds to this on scatter */
-  /* We handle the base 45° via a wrapper below */
 }
 
-/* ── Diamond inner counter-rotate ────────────────────────────────────────── */
-/* Diamond card needs inner content NOT rotated so image + overlay look right */
 .pg-card--diamond .pg-card-img,
 .pg-card--diamond .pg-card-tint,
 .pg-card--diamond .pg-card-info {
-  transform: rotate(0deg); /* stays upright inside the rotated card */
+  transform: rotate(0deg);
 }
 
-/* ── Image ────────────────────────────────────────────────────────────────── */
 .pg-card-img {
   position: absolute;
   inset: 0;
@@ -1462,12 +1447,10 @@
   transform: scale(1.05);
 }
 
-/* ── Tint overlay ─────────────────────────────────────────────────────────── */
 .pg-card-tint {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  /* Tint fades on hover so image becomes clearer */
   transition: opacity 0.3s ease;
 }
 
@@ -1475,20 +1458,18 @@
   opacity: 0.6;
 }
 
-/* ── Info overlay — slides up from bottom on hover ────────────────────────── */
 .pg-card-info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: clamp(16px, 2.5vw, 24px);
+  padding: clamp(12px, 2.5vw, 24px);
   background: linear-gradient(to top, rgba(8,7,8,0.95) 0%, rgba(8,7,8,0.7) 60%, transparent 100%);
   transform: translateY(100%);
   transition: transform 0.32s cubic-bezier(0.33, 1, 0.68, 1);
   display: flex;
   flex-direction: column;
   gap: 6px;
-  /* Don't clip on circle */
   border-radius: inherit;
 }
 
@@ -1499,14 +1480,14 @@
 .pg-card-title {
   font-family: 'Instrument Serif', serif;
   font-style: italic;
-  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  font-size: clamp(1rem, 2vw, 1.6rem);
   color: #e6e8e6;
   line-height: 1;
 }
 
 .pg-card-desc {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.68rem, 0.9vw, 0.78rem);
+  font-size: clamp(0.65rem, 0.9vw, 0.78rem);
   font-weight: 300;
   color: rgba(230, 232, 230, 0.65);
   line-height: 1.6;
@@ -1542,7 +1523,6 @@
   height: 65%;
   border-radius: 50%;
   background: #3772ff;
-
   position: relative;
   cursor: grab;
   will-change: transform;
@@ -1551,7 +1531,6 @@
 .pg-ball:active {
   cursor: grabbing;
 }
-
 
 .pg-ball-face {
   position: absolute;
@@ -1578,21 +1557,13 @@
 .pg-ball-eye::after {
   content: "";
   position: absolute;
-
   width: 40%;
   aspect-ratio: 1;
   border-radius: 50%;
-
   background: #080708;
-
   top: 32%;
-  left: 18%;   /* 👈 shifted left = looking left */
+  left: 18%;
 }
-
-.pg-reset-btn {
-  margin-bottom: 0;
-}
-
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
@@ -1630,6 +1601,15 @@
   .pg-card--square {
     grid-column: span 1;
   }
+
+  /* FIX: card info overlay text was overflowing tiny cards */
+  .pg-card-info {
+    padding: 10px;
+  }
+
+  .pg-card-desc {
+    display: none;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1639,13 +1619,12 @@
 .ab-section {
   position: relative;
   width: 100%;
-  padding: clamp(80px, 12vh, 140px) clamp(32px, 7vw, 120px);
+  padding: clamp(64px, 12vh, 140px) clamp(24px, 7vw, 120px);
   overflow: hidden;
   background: #e6e8e6;
   border-top: 1px solid rgba(8, 7, 8, 0.06);
 }
 
-/* ── Eyebrow ──────────────────────────────────────────────────────────────── */
 .ab-eyebrow {
   font-family: 'Montserrat', sans-serif;
   font-size: clamp(0.6rem, 0.9vw, 0.75rem);
@@ -1653,31 +1632,28 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #3772ff;
-  margin-bottom: clamp(36px, 6vh, 64px);
+  margin-bottom: clamp(28px, 6vh, 64px);
 }
 
-/* ── Two-column grid ──────────────────────────────────────────────────────── */
 .ab-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: clamp(48px, 8vw, 120px);
+  gap: clamp(40px, 8vw, 120px);
   align-items: center;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   LEFT COLUMN — text
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Left column ──────────────────────────────────────────────────────────── */
 .ab-left {
   display: flex;
   flex-direction: column;
-  gap: clamp(28px, 4vh, 48px);
+  gap: clamp(24px, 4vh, 48px);
 }
 
 .ab-heading {
-  font-size: clamp(4rem, 9vw, 8.5rem);
+  font-size: clamp(3rem, 9vw, 8.5rem);
   line-height: 0.88;
   margin: 0;
-   color: #080708;
+  color: #080708;
 }
 
 .ab-serif {
@@ -1691,7 +1667,6 @@
   font-weight: 800;
 }
 
-/* Body paragraphs */
 .ab-body {
   display: flex;
   flex-direction: column;
@@ -1701,19 +1676,18 @@
 
 .ab-body p {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(0.88rem, 1.2vw, 1rem);
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
   font-weight: 400;
   color: rgba(8, 7, 8, 0.65);
   line-height: 1.82;
   margin: 0;
 }
 
-/* Fact grid */
 .ab-facts {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px 32px;
-  padding-top: clamp(20px, 3vh, 32px);
+  padding-top: clamp(16px, 3vh, 32px);
   border-top: 1px solid rgba(8, 7, 8, 0.08);
 }
 
@@ -1739,27 +1713,22 @@
   color: #080708;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   RIGHT COLUMN — photo
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ── Right column — photo ─────────────────────────────────────────────────── */
 .ab-photo-wrap {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Enough height for the decorative elements */
   min-height: 600px;
   padding: 80px 60px;
 }
 
-
-/* 🔥 THIS IS THE FIX */
+/* FIX: non-photo decorative children z-index stacking */
 .ab-photo-wrap > *:not(.ab-photo-frame):not(.ab-photo-accent):not(.ab-ring) {
   z-index: 3;
   position: absolute;
 }
 
-/* Decorative rotating dashed ring */
 .ab-ring {
   position: absolute;
   width: 110%;
@@ -1768,33 +1737,28 @@
   border: 1px dashed rgba(55, 114, 255, 0.22);
   pointer-events: none;
   transform-origin: center center;
-  /* Rotation driven by scroll via GSAP */
 }
 
-/* Accent color block — offset behind the photo */
 .ab-photo-accent {
   position: absolute;
   width: 82%;
   aspect-ratio: 3 / 4;
   background: #3772ff;
   border-radius: 6px;
-
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* FIX */
-
-  opacity: 0.15; /* reduce a bit, looks cleaner on light bg */
+  transform: translate(-50%, -50%);
+  opacity: 0.15;
   pointer-events: none;
   z-index: 1;
 }
-/* Photo frame */
+
 .ab-photo-frame {
   position: relative;
   width: 82%;
   aspect-ratio: 3 / 4;
   border-radius: 6px;
   overflow: hidden;
-
   z-index: 2;
   outline: 1px solid rgba(8, 7, 8, 0.08);
 }
@@ -1806,7 +1770,6 @@
   display: block;
 }
 
-/* Fallback initials when image missing */
 .ab-photo-fallback {
   width: 100%;
   height: 100%;
@@ -1820,7 +1783,6 @@
   color: #e6e8e6;
 }
 
-/* Floating "available" tag — bottom-left of the photo frame */
 .ab-tag {
   position: absolute;
   bottom: clamp(8px, 4%, 24px);
@@ -1848,7 +1810,6 @@
   height: 6px;
   border-radius: 50%;
   background: #3772ff;
-  /* Slow pulse */
   animation: tagPulse 2.4s ease-in-out infinite;
 }
 
@@ -1864,39 +1825,46 @@
     gap: 48px;
   }
 
-  /* Photo comes first on mobile */
-  .ab-photo-wrap { order: -1; min-height: 380px; }
+  .ab-photo-wrap {
+    order: -1;
+    min-height: 380px;
+    /* FIX: padding was too large on mobile, photo got squished */
+    padding: 40px 32px;
+  }
 
   .ab-photo-frame { width: 60%; }
 
-  .ab-heading { font-size: clamp(3.5rem, 14vw, 6rem); }
+  .ab-heading { font-size: clamp(3rem, 14vw, 6rem); }
 }
 
 @media (max-width: 480px) {
   .ab-facts { grid-template-columns: 1fr; }
   .ab-photo-frame { width: 78%; }
+
+  /* FIX: photo wrap min-height was too tall on small phones */
+  .ab-photo-wrap {
+    min-height: 300px;
+    padding: 28px 20px;
+  }
 }
-/* ─────────────────────────────────────────────
-   PHILOSOPHY SYSTEM (FINAL DESIGN FIX)
-──────────────────────────────────────────── */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PHILOSOPHY / SKILLS
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 .ph-section {
   background: #080708;
   color: #e6e8e6;
   min-height: 160vh;
-
-  
   padding-top: calc(80px + 60px);
-  padding-left: clamp(32px, 7vw, 120px);
-  padding-right: clamp(32px, 7vw, 120px);
+  padding-left: clamp(24px, 7vw, 120px);
+  padding-right: clamp(24px, 7vw, 120px);
   padding-bottom: 40px;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 48px;
 }
-/* ── HEADER ───────────────────────────── */
 
 .ph-header {
   max-width: 900px;
@@ -1912,7 +1880,7 @@
 }
 
 .ph-title {
-  font-size: clamp(3rem, 6vw, 6rem);
+  font-size: clamp(2rem, 6vw, 6rem);
   line-height: 0.9;
   font-family: "Montserrat", sans-serif;
   font-weight: 800;
@@ -1925,20 +1893,26 @@
   color: #ffffff;
 }
 
-/* ── GRID ───────────────────────────── */
-
+/* ── Grid ───────────────────────────────────────────── */
 .ph-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(180px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
   margin-bottom: 40px;
 }
-/* ── PERFECT SQUARE CARD SYSTEM ───── */
+
+/* FIX: cards had no min-width protection on mobile — could become unreadably narrow */
+@media (max-width: 700px) {
+  .ph-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
 
 .ph-card {
   aspect-ratio: 1 / 1;
   position: relative;
-  padding: 28px;
+  padding: clamp(18px, 3vw, 28px);
   border: 1px solid rgba(230, 232, 230, 0.12);
   overflow: hidden;
   display: flex;
@@ -1947,7 +1921,12 @@
   will-change: transform;
 }
 
-/* ── CARD COLORS (STRICT DESIGN SYSTEM) ── */
+/* FIX: on mobile, 1:1 aspect ratio cards can be very tall; ease that */
+@media (max-width: 700px) {
+  .ph-card {
+    aspect-ratio: 4 / 3;
+  }
+}
 
 .ph-card:nth-child(1) {
   background: #3772ff;
@@ -1964,8 +1943,6 @@
   color: #080708;
 }
 
-/* ── SHAPE (GEOMETRIC ANCHOR) ── */
-
 .ph-shape {
   width: 12px;
   height: 12px;
@@ -1980,116 +1957,34 @@
   border-radius: 0;
 }
 
-/* ── TEXT ───────────────────────────── */
-
 .ph-card h3 {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.05rem;
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
   font-weight: 700;
 }
 
 .ph-card p {
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 1.3vw, 0.9rem);
   line-height: 1.6;
   opacity: 0.9;
 }
 
-/* ── SKILLS (MIRROR SYSTEM) ── */
-
+/* ── Skills marquee ──────────────────────────────────── */
 .ph-skills {
-  max-width: 900px;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .ph-subtitle {
-  font-size: 1.4rem;
-  margin-bottom: 30px;
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  margin-bottom: 18px;
   font-family: "Montserrat", sans-serif;
-}
-
-/* same grid logic, but flexible */
-.ph-skill-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.ph-skill {
-  padding: 10px 14px;
-  border: 1px solid rgba(230, 232, 230, 0.2);
-  font-size: 0.85rem;
-  font-family: "Montserrat", sans-serif;
-  color: #e6e8e6;
-  transition: all 0.25s ease;
-}
-
-.ph-skill:hover {
-  background: #3772ff;
-  border-color: #3772ff;
-}
-
-/* ── RESPONSIVE ───────────────────────── */
-
-@media (max-width: 900px) {
-  .ph-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.ph-skills {
-  overflow: hidden;
 }
 
 .ph-marquee-wrap {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.ph-marquee {
-  display: flex;
-  width: max-content;
-  gap: 16px;
-}
-
-.ph-skill-tile {
-  flex: 0 0 auto;
-  padding: 16px 22px;
-  border: 1px solid #e6e8e6;
-  background: #080708;
-  color: #e6e8e6;
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.ph-skill-tile.alt:nth-child(odd) {
-  background: #3772ff;
-  color: #e6e8e6;
-  border-color: #3772ff;
-}
-
-.ph-skill-tile:nth-child(3n) {
-  background: #fdca40;
-  color: #080708;
-  border-color: #fdca40;
-}
-
-.ph-skill-tile:nth-child(4n) {
-  background: #df2935;
-  color: #e6e8e6;
-  border-color: #df2935;
-}
-
-.ph-marquee-wrap {
-  opacity: 1;
-}
-
-.ph-subtitle {
-  font-size: 1.4rem;
-  margin-bottom: 18px;
-  font-family: "Montserrat", sans-serif;
 }
 
 .ph-marquee {
@@ -2115,7 +2010,6 @@
   flex: 0 0 auto;
   white-space: nowrap;
   padding: 14px 20px;
- 
   background: #3772ff;
   color: #e6e8e6;
   font-family: "Montserrat", sans-serif;
@@ -2143,12 +2037,17 @@
   color: #080708;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   MISC / SHARED
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 .hero-name {
   color: #3772ff;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
+/* ── Lightbox ─────────────────────────────────────────────────────────────── */
 .tl-figure-btn {
   display: block;
   width: 100%;
@@ -2166,7 +2065,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  /* FIX: was 24px padding — on tiny phones reduce to avoid overflow */
+  padding: clamp(12px, 4vw, 24px);
 }
 
 .tl-lightbox-panel {
@@ -2205,8 +2105,9 @@
   line-height: 1.6;
 }
 
+/* ── Next project ─────────────────────────────────────────────────────────── */
 .tl-next-project {
-  padding: clamp(48px, 8vh, 96px) clamp(32px, 7vw, 120px);
+  padding: clamp(40px, 8vh, 96px) clamp(24px, 7vw, 120px);
   border-top: 1px solid rgba(230, 232, 230, 0.08);
 }
 
@@ -2223,7 +2124,7 @@
 }
 
 .tl-next-title {
-  font-size: clamp(2.2rem, 5vw, 4.8rem);
+  font-size: clamp(1.8rem, 5vw, 4.8rem);
   line-height: 0.95;
   color: #e6e8e6;
   margin: 0 0 16px;
@@ -2234,6 +2135,9 @@
   line-height: 1.75;
   max-width: 52ch;
   margin-bottom: 24px;
+  /* FIX: font size was unset — add explicit mobile-friendly size */
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
 }
 
 .tl-next-link {
@@ -2245,6 +2149,11 @@
   border-radius: 999px;
   color: #e6e8e6;
   text-decoration: none;
+  /* FIX: missing font-family caused system font fallback */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   transition: all 0.25s ease;
 }
 

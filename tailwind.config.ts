@@ -35,7 +35,7 @@ export default {
   },
 
   fontFamily: {
-    sans: ["Montserrat", "sans-serif"],
+    sans: ["Bricolage Grotesque", "Montserrat", "sans-serif"],
     serif: ["Instrument Serif", "serif"],
   },
 
